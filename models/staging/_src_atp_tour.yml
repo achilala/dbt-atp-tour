@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: atp_tour
+    schema: raw
+    tables:
+      - name: matches
+      - name: players

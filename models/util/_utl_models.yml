@@ -1,0 +1,12 @@
+version: 2
+
+models:
+
+  - name: ref_unknown_value
+    description: This model contains a list of valid attributes of an unknown record. One row per unknown record. 
+    columns:
+      - name: unknown_key
+        description: This is the unique business key of each unknown record
+        tests:
+            - unique
+            - not_null

@@ -1,0 +1,39 @@
+version: 2
+
+models:
+
+  - name: dim_date
+    description: This is a dimension model which contains the date calendar. One row per date.
+    columns:
+      - name: dim_date_key
+        description: This is the unique surrogate key of each date
+        tests:
+            - unique
+            - not_null
+
+  - name: dim_tournament
+    description: This is a dimension model which contains tournaments. One row per tournament.
+    columns:
+      - name: dim_tournament_key
+        description: This is the unique surrogate key of each tournament
+        tests:
+            - unique
+            - not_null
+
+  - name: dim_match
+    description: This is a dimension model which contains matches. One row per match.
+    columns:
+      - name: dim_match_key
+        description: This is the unique surrogate key of each match
+        tests:
+            - unique
+            - not_null
+
+  - name: dim_player
+    description: This is a dimension model which contains players. One row per player.
+    columns:
+      - name: dim_player_key
+        description: This is the unique surrogate key of each player
+        tests:
+            - unique
+            - not_null
