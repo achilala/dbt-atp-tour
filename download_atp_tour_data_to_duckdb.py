@@ -6,8 +6,7 @@ __author__ = "achilala"
 __version__ = "0.0.1"
 
 import logging
-from termcolor import colored
-
+from termcolor import colored # just messing around with adding colors to messages in the terminal
 import duckdb
 
 logging.basicConfig(level=logging.DEBUG)
@@ -32,16 +31,15 @@ def main() -> None:
     atp_tour.sql("INSTALL httpfs")
     atp_tour.sql("LOAD httpfs")
     
-    # just messing around with adding colors to messages in the terminal
-    log.debug(colored(f"downloading atp players file: {atp_players_csv_file}", 'blue'))
-    log.debug(colored(f"downloading atp matches files: {atp_matches_csv_files}", 'green'))
-
     # make sure schema for raw data exists
     atp_tour.execute(
         """
         create schema if not exists raw
         """
     )
+
+    # display files to download
+    log.debug(colored(f"downloading atp players file: {atp_players_csv_file}", 'blue'))
 
     # import players into raw schema
     atp_tour.execute(
@@ -54,6 +52,9 @@ def main() -> None:
         """,
         [atp_players_csv_file]
     )
+
+    # display files to download
+    log.debug(colored(f"downloading atp matches files: {atp_matches_csv_files}", 'green'))
 
     # import matches into raw schema
     atp_tour.execute(
