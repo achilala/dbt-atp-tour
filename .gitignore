@@ -10,3 +10,4 @@ duckdb
 duckdb_cli-osx-universal.zip
 
 *.log
+_*
