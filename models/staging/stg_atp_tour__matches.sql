@@ -8,10 +8,10 @@ with atp_tour_matches as (
       from {{ source('atp_tour', 'matches') }}
 )
 , renamed as (
-    select tourney_id
-          ,tourney_name
-          ,tourney_level
-          ,tourney_date
+    select tourney_id as tournament_id
+          ,tourney_name as tournament_name
+          ,tourney_level as tournament_level
+          ,tourney_date as tournament_date
           ,surface
           ,draw_size
           ,match_num as match_id
@@ -23,7 +23,11 @@ with atp_tour_matches as (
           ,winner_seed
           ,winner_entry
           ,winner_name
-          ,winner_hand
+          ,case
+              when winner_hand = 'R' then 'Right-handed'
+              when winner_hand = 'L' then 'Left-handed' 
+              else 'Unknown' 
+           end as winner_hand
           ,winner_ht
           ,winner_ioc
           ,winner_age
@@ -42,7 +46,11 @@ with atp_tour_matches as (
           ,loser_seed
           ,loser_entry
           ,loser_name
-          ,loser_hand
+          ,case
+              when loser_hand = 'R' then 'Right-handed'
+              when loser_hand = 'L' then 'Left-handed' 
+              else 'Unknown' 
+           end as loser_hand
           ,loser_ht
           ,loser_ioc
           ,loser_age
@@ -60,11 +68,11 @@ with atp_tour_matches as (
       from atp_tour_matches
 )
 , surrogate_keys as (
-    select {{ dbt_utils.surrogate_key(['tourney_id', 'tourney_date']) }} as tourney_sk
-          ,{{ dbt_utils.surrogate_key(['tourney_id', 'match_id']) }} as match_sk
-          ,strftime(tourney_date, '%Y%m%d') as tourney_date_key
-          ,{{ dbt_utils.surrogate_key(['winner_id']) }} as winner_player_key
-          ,{{ dbt_utils.surrogate_key(['loser_id']) }} as loser_player_key
+    select {{ dbt_utils.surrogate_key(['tournament_id', 'tournament_date']) }} as tournament_sk
+          ,{{ dbt_utils.surrogate_key(['tournament_id', 'match_id']) }} as match_sk
+          ,strftime(tournament_date, '%Y%m%d') as tournament_date_key
+          ,{{ dbt_utils.surrogate_key(['winner_id']) }} as player_winner_key
+          ,{{ dbt_utils.surrogate_key(['loser_id']) }} as player_loser_key
           ,*
       from renamed
 )
