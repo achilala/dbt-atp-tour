@@ -4,5 +4,6 @@ sources:
   - name: atp_tour
     schema: raw
     tables:
+      - name: countries
       - name: matches
       - name: players

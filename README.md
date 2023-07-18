@@ -31,7 +31,7 @@ pip install -r requirements.txt
 
 Running this python script will read the ATP tour data into a duckdb database called `atp_tour.duckdb`
 ```python 
-python3 download_atp_tour_data_to_duckdb.py
+python3 download_atp_tour_data.py
 ```
 
 A new file called `atp_tour.duckdb` should appear in the folder, and this is the `DuckDB` database file. The reason why `DuckDB` is my-go-to database is because it's very light, simple to setup and built for analytical processing.

@@ -8,8 +8,7 @@ with matches as (
 	  from {{ ref('stg_atp_tour__matches') }}
 )
 , match as (
-	select match_sk as dim_match_key
-		  ,tournament_sk as dim_tournament_key
+	select tournament_sk as dim_tournament_key
 		  ,tournament_date_key as dim_tournament_date_key
 		  ,player_winner_key as dim_player_winner_key
 		  ,player_loser_key as dim_player_loser_key

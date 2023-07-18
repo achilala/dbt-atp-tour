@@ -30,7 +30,8 @@ def get_player_info(player_name: str) -> dict:
     return atp_tour.execute(
             """
             select p.age as "Age"
-                  ,p.iso_country_code as "Birthplace"
+                  ,p.country_name as "Birthplace"
+                  ,p.nationality as "Nationality"
                   ,p.height_cm as "Height"
                   ,p.dominant_hand as "Plays"
                   ,p.career_wins_vs_losses as "Career Wins/Losses"
