@@ -11,6 +11,7 @@ with atp_tour_countries as (
     select cca3 as iso_country_code
           ,name.common as country_name
           ,demonyms.eng.f as nationality
+          ,region as continent
       from atp_tour_countries
 )
 , surrogate_keys as (

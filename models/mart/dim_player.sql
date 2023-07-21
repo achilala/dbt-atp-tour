@@ -68,9 +68,10 @@ with players as (
         ,p.dominant_hand
         ,p.date_of_birth
         ,p.age
+        ,c.nationality
         ,p.iso_country_code
         ,c.country_name
-        ,c.nationality
+        ,c.continent
         ,p.height_cm
         ,p.wikidata_id
         ,w.num_of_wins
@@ -94,9 +95,10 @@ with players as (
         ,unknown_text as dominant_hand
         ,unknown_date as date_of_birth
         ,unknown_integer as age
+        ,unknown_text as nationality
         ,unknown_text as iso_country_code
         ,unknown_text as country_name
-        ,unknown_text as nationality
+        ,unknown_text as continent
         ,unknown_integer as height_cm
         ,unknown_text as wikidata_id
         ,unknown_integer as num_of_wins

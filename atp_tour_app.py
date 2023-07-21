@@ -32,6 +32,7 @@ def get_player_info(player_name: str) -> dict:
             select p.age as "Age"
                   ,p.country_name as "Birthplace"
                   ,p.nationality as "Nationality"
+                  ,p.continent as "Continent"
                   ,p.height_cm as "Height"
                   ,p.dominant_hand as "Plays"
                   ,p.career_wins_vs_losses as "Career Wins/Losses"
