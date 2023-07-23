@@ -8,20 +8,22 @@ with atp_tour_players as (
       from {{ source('atp_tour', 'players') }}
 )
 , renamed as (
-    select player_id
-          ,name_first||' '||name_last as player_name
-          ,name_first as first_name
-          ,name_last as last_name
+    select player_id::int as player_id
+          ,name_first||' '||name_last::varchar(100) as player_name
+          ,name_first::varchar(50) as first_name
+          ,name_last::varchar(50) as last_name
           ,case
               when hand = 'R' then 'Right-handed'
-              when hand = 'L' then 'Left-handed' 
-              else 'Unknown' 
-           end as dominant_hand
-          ,dob as date_of_birth
-          ,year(current_date) - year(dob) as age
-          ,ioc as iso_country_code
-          ,height as height_cm
-          ,wikidata_id
+              when hand = 'L' then 'Left-handed'
+              when hand = 'A' then 'Ambidextrous'
+              when hand = 'U' then 'Unknown'
+              else hand
+           end::varchar(15) as dominant_hand
+          ,dob::date as date_of_birth
+          ,(year(current_date) - year(dob))::smallint as age
+          ,ioc::varchar(3) as country_iso_code
+          ,height::smallint as height_cm
+          ,wikidata_id::varchar(10) as wikidata_id
       from atp_tour_players
 )
 , surrogate_keys as (

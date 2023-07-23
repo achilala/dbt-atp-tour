@@ -19,34 +19,34 @@ with matches as (
 		  ,1 as num_of_matches
 		  ,winner_seed
 		  ,winner_entry
-		  ,winner_ht
+		  ,winner_height_cm
 		  ,winner_age
-		  ,winner_ace
-		  ,winner_df
-		  ,winner_svpt
-		  ,winner_1stin
-		  ,winner_1stwon
-		  ,winner_2ndwon
-		  ,winner_svgms
-		  ,winner_bpsaved
-		  ,winner_bpfaced
+		  ,winner_num_of_aces
+		  ,winner_num_of_double_faults
+		  ,winner_num_of_serve_pts
+		  ,winner_num_of_1st_serves_made
+		  ,winner_num_of_1st_serve_pts_won
+		  ,winner_num_of_2nd_serve_pts_won
+		  ,winner_num_of_serve_games
+		  ,winner_num_of_break_pts_saved
+		  ,winner_num_of_break_pts_faced
 		  ,winner_rank
-		  ,winner_rank_points
+		  ,winner_rank_pts
 		  ,loser_seed
 		  ,loser_entry
-		  ,loser_ht
+		  ,loser_height_cm
 		  ,loser_age
-		  ,loser_ace
-		  ,loser_df
-		  ,loser_svpt
-		  ,loser_1stin
-		  ,loser_1stwon
-		  ,loser_2ndwon
-		  ,loser_svgms
-		  ,loser_bpsaved
-		  ,loser_bpfaced
+		  ,loser_num_of_aces
+		  ,loser_num_of_double_faults
+		  ,loser_num_of_serve_pts
+		  ,loser_num_of_1st_serves_made
+		  ,loser_num_of_1st_serve_pts_won
+		  ,loser_num_of_2nd_serve_pts_won
+		  ,loser_num_of_serve_games
+		  ,loser_num_of_break_pts_saved
+		  ,loser_num_of_break_pts_faced
 		  ,loser_rank
-		  ,loser_rank_points
+		  ,loser_rank_pts
 	  from matches
 )
 select *

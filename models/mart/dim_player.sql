@@ -38,7 +38,10 @@ with players as (
 )
 , longer_player_name as (
   select m.player_id
-        ,case when m.player_name_length > p.player_name_length then m.player_name else p.player_name end as player_name
+        ,case 
+            when m.player_name_length > p.player_name_length then m.player_name 
+            else p.player_name
+         end as player_name
         ,m.player_name as m
         ,p.player_name as p
     from match_player_names m
@@ -69,7 +72,7 @@ with players as (
         ,p.date_of_birth
         ,p.age
         ,c.nationality
-        ,p.iso_country_code
+        ,p.country_iso_code
         ,c.country_name
         ,c.continent
         ,p.height_cm
@@ -82,7 +85,7 @@ with players as (
 	  left join longer_player_name n on p.player_id = n.player_id
 	  left join num_of_wins_by_player w on p.player_id = w.player_id
 	  left join num_of_losses_by_player l on p.player_id = l.player_id
-	  left join countries c on c.iso_country_code = p.iso_country_code
+	  left join countries c on c.country_iso_code = p.country_iso_code
 
     union all
     
@@ -96,7 +99,7 @@ with players as (
         ,unknown_date as date_of_birth
         ,unknown_integer as age
         ,unknown_text as nationality
-        ,unknown_text as iso_country_code
+        ,unknown_text as country_iso_code
         ,unknown_text as country_name
         ,unknown_text as continent
         ,unknown_integer as height_cm
