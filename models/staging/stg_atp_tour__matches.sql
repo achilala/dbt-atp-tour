@@ -24,7 +24,19 @@ with atp_tour_matches as (
           ,score::varchar(50) as score
           ,best_of::tinyint as best_of
           ,('Best of '||best_of)::varchar(10) as best_of_labeled
-          ,round::varchar(4) as round
+          ,case
+                -- when round = 'BR' then ''
+                -- when round = 'ER' then ''
+                when round = 'F' then 'Final'
+                when round = 'QF' then 'Quarterfinal'
+                when round = 'R16' then 'Round of 16'
+                when round = 'R32' then 'Round of 32'
+                when round = 'R64' then 'Round of 64'
+                when round = 'R128' then 'Round of 128'
+                when round = 'RR' then 'Round robin'
+                when round = 'SF' then 'Semifinal'
+                else round
+           end::varchar(4) as round
           ,minutes::smallint as minutes
           ,winner_id::int as winner_id
           ,winner_seed::tinyint as winner_seed
