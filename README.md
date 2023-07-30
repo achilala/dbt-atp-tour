@@ -71,7 +71,14 @@ Open the database
 
 Sample query
 ```sql
-SELECT *
-  FROM mart.dim_player
- ORDER BY dim_player_key;
+summarize mart.dim_player;
+
+select *
+  from mart.dim_player
+ order by dim_player_key;
+```
+
+Now that the data is modeled, we can now run the streamlit app
+```py
+streamlit run atp_tour_app.py
 ```

@@ -21,13 +21,7 @@ with matches as (
 		  ,draw_size
 		  ,count(1) as num_of_matches
 	  from matches
-	 group by tournament_sk
-		  ,tournament_id
-		  ,tournament_name
-		  ,tournament_level
-		  ,tournament_date
-		  ,surface
-		  ,draw_size
+	 group by all
 )
 , unknown_record as (
 	select dim_tournament_key

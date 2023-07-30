@@ -7,13 +7,18 @@ with matches as (
 	select *
 	  from {{ ref('stg_atp_tour__matches') }}
 )
+, ref_unknown_record as (
+	select *
+	  from {{ ref('ref_unknown_value') }}
+)
 , match as (
-	select tournament_sk as dim_tournament_key
-		  ,tournament_date_key as dim_tournament_date_key
-		  ,player_winner_key as dim_player_winner_key
-		  ,player_loser_key as dim_player_loser_key
+	select coalesce(tournament_sk, u.unknown_key) as dim_tournament_key
+		  ,coalesce(tournament_date_key, u.unknown_key) as dim_tournament_date_key
+		  ,coalesce(player_winner_key, u.unknown_key) as dim_player_winner_key
+		  ,coalesce(player_loser_key, u.unknown_key) as dim_player_loser_key
 		  ,score
 		  ,best_of
+		  ,best_of_labeled
 		  ,round
 		  ,minutes
 		  ,1 as num_of_matches
@@ -47,7 +52,8 @@ with matches as (
 		  ,loser_num_of_break_pts_faced
 		  ,loser_rank
 		  ,loser_rank_pts
-	  from matches
+	  from matches m
+	  left join ref_unknown_record u on 1 = 1
 )
 select *
   from match
