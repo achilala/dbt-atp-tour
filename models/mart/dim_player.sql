@@ -42,6 +42,9 @@ with players as (
             when m.player_name_length > p.player_name_length then m.player_name 
             else p.player_name
          end as player_name
+        ,case 
+            when m.player_name_length < p.player_name_length then m.player_name
+         end as player_aka
         ,m.player_name as m
         ,p.player_name as p
     from match_player_names m
@@ -65,7 +68,7 @@ with players as (
 	select p.player_sk as dim_player_key
 		    ,p.player_id
         ,coalesce(n.player_name, p.player_name) as player_name
-        ,p.player_name as player_aka
+        ,n.player_aka as player_aka
         ,p.first_name
         ,p.last_name
         ,p.dominant_hand
