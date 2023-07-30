@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  metabase:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: metabase
+    image: metabase/metabase:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ".:/home/db"
