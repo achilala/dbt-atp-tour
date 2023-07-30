@@ -34,13 +34,17 @@ with date_spine as (
         ,'Q'||date_part('quarter', date_day) as quarter_of_year
         ,strftime(date_day, '%Y') as year
         ,strftime(date_day, '%y') as year_abbr
-        ,date_diff('day', current_date, date_day) as day_offset
-        ,date_diff('week', current_date, date_day) as week_offset
-        ,date_diff('month', current_date, date_day) as month_offset
-        ,date_diff('quarter', current_date, date_day) as quarter_offset
-        ,date_diff('year', current_date, date_day) as year_offset
+        ,date_diff('day', strftime(now(), '%Y-%m-%d')::date, date_day) as day_offset
+        ,date_diff('week', strftime(now(), '%Y-%m-%d')::date, date_day) as week_offset
+        ,date_diff('month', strftime(now(), '%Y-%m-%d')::date, date_day) as month_offset
+        ,date_diff('quarter', strftime(now(), '%Y-%m-%d')::date, date_day) as quarter_offset
+        ,date_diff('year', strftime(now(), '%Y-%m-%d')::date, date_day) as year_offset
+        ,date_day - interval 7 day as same_day_last_week
+        ,date_day - interval 14 day as same_day_last_fortnight
         ,date_day - interval 1 month as same_day_last_month
         ,date_day - interval 1 year as same_day_last_year
+        ,date_day + interval 7 day as same_day_next_week
+        ,date_day + interval 14 day as same_day_next_fortnight
         ,date_day + interval 1 month as same_day_next_month
         ,date_day + interval 1 year as same_day_next_year
         ,'Q'||date_part('quarter', date_day + interval 6 month) as fiscal_quarter_of_year
@@ -79,8 +83,12 @@ with date_spine as (
           ,month_offset
           ,quarter_offset
           ,year_offset
+          ,same_day_last_week
+          ,same_day_last_fortnight
           ,same_day_last_month
           ,same_day_last_year
+          ,same_day_next_week
+          ,same_day_next_fortnight
           ,same_day_next_month
           ,same_day_next_year
           ,fiscal_quarter_of_year||' FY'||fiscal_year_abbr as fiscal_quarter
@@ -116,8 +124,12 @@ with date_spine as (
           ,unknown_null as month_offset
           ,unknown_null as quarter_offset
           ,unknown_null as year_offset
+          ,unknown_date as same_day_last_week
+          ,unknown_date as same_day_last_fortnight
           ,unknown_date as same_day_last_month
           ,unknown_date as same_day_last_year
+          ,unknown_date as same_day_next_week
+          ,unknown_date as same_day_next_fortnight
           ,unknown_date as same_day_next_month
           ,unknown_date as same_day_next_year
           ,unknown_text as fiscal_quarter
