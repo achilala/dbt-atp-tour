@@ -29,7 +29,7 @@ def search_players(search_term: str):
 def get_player_info(player_name: str) -> dict:
     return atp_tour.execute(
             """
-            select p.age as "Age"
+            select p.age_incl_date_of_birth as "Age"
                   ,p.country_name as "Birthplace"
                   ,p.nationality as "Nationality"
                   ,p.continent as "Continent"

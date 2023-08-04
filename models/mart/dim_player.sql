@@ -73,6 +73,7 @@ with players as (
         ,p.last_name
         ,p.dominant_hand
         ,p.date_of_birth
+        ,p.age_incl_date_of_birth
         ,p.age
         ,c.nationality
         ,p.country_iso_code
@@ -100,6 +101,7 @@ with players as (
         ,unknown_text as last_name
         ,unknown_text as dominant_hand
         ,unknown_date as date_of_birth
+        ,unknown_text as age_incl_date_of_birth
         ,unknown_integer as age
         ,unknown_text as nationality
         ,unknown_text as country_iso_code

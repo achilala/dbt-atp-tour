@@ -21,6 +21,7 @@ with atp_tour_players as (
            end::varchar(15) as dominant_hand
           ,dob::date as date_of_birth
           ,(year(current_date) - year(dob))::smallint as age
+          ,(year(current_date) - year(dob))||' ('||strftime(dob, '%Y.%m.%d')||')'::varchar(20) as age_incl_date_of_birth
           ,ioc::varchar(3) as country_iso_code
           ,height::smallint as height_cm
           ,wikidata_id::varchar(10) as wikidata_id
