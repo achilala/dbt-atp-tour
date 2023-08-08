@@ -21,7 +21,7 @@ with recursive num_of_minutes as (
 		    ,to_minutes(minute_num) as this_minute
     from num_of_minutes
 )
-, unknown_record as (
+, renamed as (
   select strftime(('1900-01-01 ' || this_minute)::timestamp, '%H%M')::int as dim_time_key
         ,this_minute as the_time
         ,minute_num as num_of_minutes
@@ -45,11 +45,27 @@ with recursive num_of_minutes as (
          end::varchar as notation_12
         ,this_minute:: varchar as notation_24
     from time_series
+)
+, unknown_record as (
+  select dim_time_key
+        ,the_time
+        ,notation_12||' '||am_pm as standard_time
+        ,num_of_minutes
+        ,the_hour
+        ,the_minute
+        ,military_hour
+        ,military_minute
+        ,am_pm
+        ,time_of_day
+        ,notation_12
+        ,notation_24
+    from renamed
 
   union all
 
   select unknown_key as dim_time_key
         ,null as the_time
+        ,unknown_text as standard_time
         ,unknown_integer as num_of_minutes
         ,unknown_integer as the_hour
         ,unknown_integer as the_minute
