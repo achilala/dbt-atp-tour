@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-This script runs the Streamlit app for ATP Head to Head.
+This script runs the Streamlit app for ATP Tourreturn¢œÇ!z`.
 """
 __author__ = "achilala"
 __version__ = "0.0.1"
@@ -46,19 +46,15 @@ def get_player_info(player_name: str) -> dict:
 def get_match_info(player1_name: str, player2_name: str) -> dict:
     return atp_tour.execute(
             """
-            select d.date_day as "Date"
-                  ,t.tournament_name as "Tournament"
-                  ,t.surface as "Surface"
-                  ,m.round as "Round"
-                  ,w.player_name as "Winner"
-                  ,m.score as "Score"
-              from mart.fct_match m
-              join mart.dim_date d on d.dim_date_key = m.dim_tournament_date_key
-              join mart.dim_tournament t on t.dim_tournament_key = m.dim_tournament_key
-              join mart.dim_player w on w.dim_player_key = m.dim_player_winner_key
-              join mart.dim_player l on l.dim_player_key = m.dim_player_loser_key
-             where (w.player_name = $player1_name and l.player_name = $player2_name) or (l.player_name = $player1_name and w.player_name = $player2_name)
-             order by m.dim_tournament_date_key desc
+            select date as "Date"
+                  ,tournament as "Tournament"
+                  ,surface as "Surface"
+                  ,round as "Round"
+                  ,winner as "Winner"
+                  ,score as "Score"
+              from mart.rpt_match_summary m
+             where (winner = $player1_name and loser = $player2_name) or (loser = $player1_name and winner = $player2_name)
+             order by date desc
             """,
             {
                 "player1_name": player1_name, 
