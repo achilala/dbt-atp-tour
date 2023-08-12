@@ -29,7 +29,7 @@ with atp_tour_players as (
 )
 , surrogate_keys as (
     select {{ dbt_utils.surrogate_key(['player_id']) }} as player_sk
-          ,strftime(date_of_birth, '%Y%m%d') as dob_date_key
+          ,strftime(date_of_birth, '%Y%m%d') as date_of_birth_key
           ,*
       from renamed
 )
