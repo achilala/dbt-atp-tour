@@ -72,6 +72,7 @@ with date_spine as (
           ,month_of_year
           ,month_name
           ,month_name_abbr
+          ,month_of_year||' '||month_name_abbr as month_numbered
           ,first_day_of_month
           ,last_day_of_month
           ,quarter_of_year||' CY'||year_abbr as quarter
@@ -113,6 +114,7 @@ with date_spine as (
           ,unknown_text as month_of_year
           ,unknown_text as month_name
           ,unknown_text as month_name_abbr
+          ,unknown_text as month_numbered
           ,unknown_date as first_day_of_month
           ,unknown_date as last_day_of_month
           ,unknown_text as quarter

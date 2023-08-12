@@ -65,6 +65,30 @@ with players as (
    group by all
 )
 , unknown_record as (
+	select unknown_key as dim_player_key
+		    ,unknown_integer as player_id
+        ,unknown_text as player_name
+        ,unknown_text as player_aka
+        ,unknown_text as first_name
+        ,unknown_text as last_name
+        ,unknown_text as dominant_hand
+        -- ,unknown_date as date_of_birth
+        ,unknown_text as age_incl_date_of_birth
+        ,unknown_integer as age
+        ,unknown_text as nationality
+        ,unknown_text as country_iso_code
+        ,unknown_text as country_name
+        ,unknown_text as continent
+        ,unknown_integer as height_cm
+        ,unknown_text as wikidata_id
+        ,unknown_integer as num_of_wins
+        ,unknown_integer as num_of_losses
+        ,unknown_text as career_wins_vs_losses
+        ,unknown_float as career_win_ratio
+    from ref_unknown_record
+
+    union all
+    
 	select p.player_sk as dim_player_key
 		    ,p.player_id
         ,coalesce(n.player_name, p.player_name) as player_name
@@ -72,7 +96,7 @@ with players as (
         ,p.first_name
         ,p.last_name
         ,p.dominant_hand
-        ,p.date_of_birth
+        -- ,p.date_of_birth
         ,p.age_incl_date_of_birth
         ,p.age
         ,c.nationality
@@ -90,30 +114,6 @@ with players as (
 	  left join num_of_wins_by_player w on p.player_id = w.player_id
 	  left join num_of_losses_by_player l on p.player_id = l.player_id
 	  left join countries c on c.country_iso_code = p.country_iso_code
-
-    union all
-    
-	select unknown_key as dim_player_key
-		    ,unknown_integer as player_id
-        ,unknown_text as player_name
-        ,unknown_text as player_aka
-        ,unknown_text as first_name
-        ,unknown_text as last_name
-        ,unknown_text as dominant_hand
-        ,unknown_date as date_of_birth
-        ,unknown_text as age_incl_date_of_birth
-        ,unknown_integer as age
-        ,unknown_text as nationality
-        ,unknown_text as country_iso_code
-        ,unknown_text as country_name
-        ,unknown_text as continent
-        ,unknown_integer as height_cm
-        ,unknown_text as wikidata_id
-        ,unknown_integer as num_of_wins
-        ,unknown_integer as num_of_losses
-        ,unknown_text as career_wins_vs_losses
-        ,unknown_float as career_win_ratio
-    from ref_unknown_record
 )
 select *
   from unknown_record

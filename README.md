@@ -20,6 +20,7 @@ cd dbt-atp-tour
 
 Create a virtual environment for your python dependencies and activate it. Your python dependencies will be installed here.
 ```bash
+rm -r ~/.venv/dbt-atp-tour
 python3 -m venv ~/.venv/dbt-atp-tour
 source ~/.venv/dbt-atp-tour/bin/activate
 ```
@@ -27,6 +28,12 @@ source ~/.venv/dbt-atp-tour/bin/activate
 Install the python dependencies
 ```bash
 pip install -r requirements.txt
+```
+
+Some of the install modelues require a reactivating your virtual environment before taking effect 
+```bash
+deactivate
+source ~/.venv/dbt-atp-tour/bin/activate
 ```
 
 Running this python script will read the ATP tour data into a duckdb database called `atp_tour.duckdb`
@@ -79,6 +86,16 @@ select *
 ```
 
 Now that the data is modeled, we can now run the streamlit app
-```py
+```sh
 streamlit run atp_tour_app.py
+```
+
+For BI and analysing the data we'll use Metabase, run Docker to setup it up
+```sh
+docker-compose up --build
+```
+
+For consuming the data from other apps, run the following command to start the API service
+```sh
+uvicorn atp_tour_api:app --reload
 ```
