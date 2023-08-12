@@ -1,5 +1,8 @@
-duckdb==0.7.1
-termcolor==2.2.0
 dbt-duckdb==1.5.1
+duckdb==0.7.1
 streamlit==1.21.0
 streamlit-searchbox==0.1.2
+termcolor==2.2.0
+
+fastapi==0.101.0
+uvicorn[standard]==0.23.2
