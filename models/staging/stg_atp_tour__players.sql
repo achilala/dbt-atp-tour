@@ -21,17 +21,34 @@ with atp_tour_players as (
            end::varchar(15) as dominant_hand
           ,dob::date as date_of_birth
           ,(year(current_date) - year(dob))::smallint as age
-          ,(year(current_date) - year(dob))||' ('||strftime(dob, '%Y.%m.%d')||')'::varchar(20) as age_incl_date_of_birth
           ,ioc::varchar(3) as country_iso_code
-          ,height::smallint as height_cm
+          ,height::smallint as height_in_centimeters
+          ,round(height * 0.0328084, 1)::decimal(3,1) as height_in_inches
           ,wikidata_id::varchar(10) as wikidata_id
       from atp_tour_players
+)
+, renamed2 as (
+    select player_id
+          ,player_name
+          ,first_name
+          ,last_name
+          ,dominant_hand
+          ,date_of_birth
+          ,age
+          ,age||' ('||strftime(date_of_birth, '%Y.%m.%d')||')'::varchar(20) as age_incl_date_of_birth
+          ,age_incl_date_of_birth
+          ,country_iso_code
+          ,height_in_centimeters
+          ,height_in_inches
+          ,replace(height_in_inches, '.', '''')||'" ('||height_in_centimeters||' cm)'::varchar(20) as height
+          ,wikidata_id
+      from renamed
 )
 , surrogate_keys as (
     select {{ dbt_utils.surrogate_key(['player_id']) }} as player_sk
           ,strftime(date_of_birth, '%Y%m%d') as date_of_birth_key
           ,*
-      from renamed
+      from renamed2
 )
 select *
   from surrogate_keys

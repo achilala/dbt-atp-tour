@@ -33,7 +33,7 @@ def get_player_info(player_name: str) -> dict:
                   ,p.country_name as "Birthplace"
                   ,p.nationality as "Nationality"
                   ,p.continent as "Continent"
-                  ,p.height_cm as "Height"
+                  ,p.height as "Height"
                   ,p.dominant_hand as "Plays"
                   ,p.career_wins_vs_losses as "Career Wins/Losses"
                   ,p.career_win_ratio as "Career Win Ratio"

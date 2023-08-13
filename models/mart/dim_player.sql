@@ -79,7 +79,9 @@ with players as (
         ,unknown_text as country_iso_code
         ,unknown_text as country_name
         ,unknown_text as continent
-        ,unknown_integer as height_cm
+        ,unknown_integer as height_in_centimeters
+        ,unknown_float as height_in_inches
+        ,unknown_text as height
         ,unknown_text as wikidata_id
         ,unknown_integer as num_of_wins
         ,unknown_integer as num_of_losses
@@ -103,7 +105,9 @@ with players as (
         ,p.country_iso_code
         ,c.country_name
         ,c.continent
-        ,p.height_cm
+        ,p.height_in_centimeters
+        ,p.height_in_inches
+        ,p.height
         ,p.wikidata_id
         ,w.num_of_wins
         ,l.num_of_losses
