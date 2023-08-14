@@ -41,7 +41,7 @@ def get_player_info(player_name: str) -> dict:
              where player_name = $player_name
             """,
             {"player_name": player_name}
-        ).fetchdf().transpose().to_dict()
+        ).df().transpose().to_dict()
 
 def get_match_info(player1_name: str, player2_name: str) -> dict:
     return atp_tour.execute(
@@ -60,7 +60,7 @@ def get_match_info(player1_name: str, player2_name: str) -> dict:
                 "player1_name": player1_name, 
                 "player2_name": player2_name
             }
-        ).fetchdf()
+        ).df()
 
 def main() -> None:
     st.title("ATP Head to Head")
@@ -104,7 +104,7 @@ def main() -> None:
                       from matches_info
                      group by all
                     """
-                ).fetchdf()
+                ).df()
                 st.dataframe(by_surface.pivot(index="Surface", columns="player" ,values="wins"))
             with right:
                 st.markdown(f'#### By Round')
@@ -116,7 +116,7 @@ def main() -> None:
                       from matches_info
                      group by all
                     """
-                ).fetchdf()
+                ).df()
                 st.dataframe(by_surface.pivot(index="Round", columns="player" ,values="wins"))
 
             st.markdown(f'#### Matches')

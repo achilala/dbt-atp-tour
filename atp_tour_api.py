@@ -19,15 +19,17 @@ get_players_query = """
     with players as (
         select player_id
               ,player_name
+              ,first_name
+              ,last_name
           from mart.dim_player
-         where player_name like '%'||$player_name||'%'
+         where lower(player_name) like lower('%'||$player_name||'%')
     )
     select *
       from players
 """
 
 def execute_query(query: str, params: dict):
-    return atp_tour.execute(query, params).fetchdf().to_dict(orient="records")
+    return atp_tour.execute(query, params).df().to_dict(orient="records")
 
 
 @app.get("/")
