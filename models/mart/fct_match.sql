@@ -58,6 +58,15 @@ with matches as (
 		  ,loser_num_of_break_pts_faced
 		  ,loser_rank
 		  ,loser_rank_pts
+          ,total_num_of_aces
+          ,total_num_of_double_faults
+          ,total_num_of_serve_pts
+          ,total_num_of_1st_serves_made
+          ,total_num_of_1st_serve_pts_won
+          ,total_num_of_2nd_serve_pts_won
+          ,total_num_of_serve_games
+          ,total_num_of_break_pts_saved
+          ,total_num_of_break_pts_faced
 	  from matches m
 	  left join ref_unknown_record u on 1 = 1
 	  left join players w on m.winner_id = w.player_id

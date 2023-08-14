@@ -102,6 +102,15 @@ with atp_tour_matches as (
           ,l_bpfaced::smallint as loser_num_of_break_pts_faced
           ,loser_rank::smallint as loser_rank
           ,loser_rank_points::smallint as loser_rank_pts
+          ,w_ace::int + l_ace::int as total_num_of_aces
+          ,w_df::int + l_df::int as total_num_of_double_faults
+          ,w_svpt::int + l_svpt::int as total_num_of_serve_pts
+          ,w_1stin::int + l_1stin::int as total_num_of_1st_serves_made
+          ,w_1stwon::int + l_1stwon::int as total_num_of_1st_serve_pts_won
+          ,w_2ndwon::int + l_2ndwon::int as total_num_of_2nd_serve_pts_won
+          ,w_svgms::int + l_svgms::int as total_num_of_serve_games
+          ,w_bpsaved::int + l_bpsaved::int as total_num_of_break_pts_saved
+          ,w_bpfaced::int + l_bpfaced::int as total_num_of_break_pts_faced
       from atp_tour_matches
 )
 , surrogate_keys as (
