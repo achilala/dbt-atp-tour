@@ -43,7 +43,7 @@ with atp_tour_matches as (
           ,case
               when winner_entry = 'WC' then 'Wild card'
               when winner_entry = 'Q' then 'Qualifier'
-              when winner_entry = 'LL' then 'lucky loser'
+              when winner_entry = 'LL' then 'Lucky loser'
               when winner_entry = 'PR' then 'Protected ranking'
               when winner_entry = 'ITF' then 'ITF entry'
               else winner_entry
@@ -75,7 +75,7 @@ with atp_tour_matches as (
           ,case
               when loser_entry = 'WC' then 'Wild card'
               when loser_entry = 'Q' then 'Qualifier'
-              when loser_entry = 'LL' then 'lucky loser'
+              when loser_entry = 'LL' then 'Lucky loser'
               when loser_entry = 'PR' then 'Protected ranking'
               when loser_entry = 'ITF' then 'ITF entry'
               else loser_entry
@@ -111,6 +111,7 @@ with atp_tour_matches as (
           ,w_svgms::int + l_svgms::int as total_num_of_serve_games
           ,w_bpsaved::int + l_bpsaved::int as total_num_of_break_pts_saved
           ,w_bpfaced::int + l_bpfaced::int as total_num_of_break_pts_faced
+          ,abs(winner_age::tinyint - loser_age::tinyint) as age_difference
       from atp_tour_matches
 )
 , surrogate_keys as (

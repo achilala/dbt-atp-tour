@@ -67,6 +67,7 @@ with matches as (
           ,total_num_of_serve_games
           ,total_num_of_break_pts_saved
           ,total_num_of_break_pts_faced
+		  ,age_difference
 	  from matches m
 	  left join ref_unknown_record u on 1 = 1
 	  left join players w on m.winner_id = w.player_id
