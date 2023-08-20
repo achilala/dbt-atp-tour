@@ -53,8 +53,15 @@ models:
     +materialized: view
     staging:
       +schema: staging
+
     util:
       +schema: util
+
     mart:
       +schema: mart
       +materialized: table
+
+tests:
+  dbt_atp_tour:
+    +docs:
+      node_color: "red"

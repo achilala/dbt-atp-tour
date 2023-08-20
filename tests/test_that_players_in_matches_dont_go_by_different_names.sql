@@ -1,11 +1,15 @@
-with names as (
+with atp_tour_matches as (
+    select *
+      from {{ source('atp_tour', 'matches') }}
+)
+, names as (
   select winner_id as player_id
         ,winner_name as player_name
-    from raw.matches
+    from atp_tour_matches
   union
   select loser_id as player_id
         ,loser_name as player_name
-    from raw.matches
+    from atp_tour_matches
 
 )
 , duplicates as (
