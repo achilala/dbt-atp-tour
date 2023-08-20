@@ -2,12 +2,9 @@
 target/
 dbt_packages/
 logs/
-.user.yml
+.venv
 
-duckdb
-*.duckdb
-*.duckdb.wal
-duckdb_cli-osx-universal.zip
-
-*.log
+.*
 _*
+*.log
+*duckdb*

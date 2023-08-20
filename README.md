@@ -20,9 +20,8 @@ cd dbt-atp-tour
 
 Create a virtual environment for your python dependencies and activate it. Your python dependencies will be installed here.
 ```bash
-rm -r ~/.venv/dbt-atp-tour
-python3 -m venv ~/.venv/dbt-atp-tour
-source ~/.venv/dbt-atp-tour/bin/activate
+python3 -m venv .venv/dbt-atp-tour
+source .venv/dbt-atp-tour/bin/activate
 ```
 
 Install the python dependencies
@@ -33,7 +32,7 @@ pip install -r requirements.txt
 Some of the install modelues require a reactivating your virtual environment before taking effect 
 ```bash
 deactivate
-source ~/.venv/dbt-atp-tour/bin/activate
+source .venv/dbt-atp-tour/bin/activate
 ```
 
 Running this python script will read the ATP tour data into a duckdb database called `atp_tour.duckdb`
