@@ -29,7 +29,7 @@ Install the python dependencies
 pip install -r requirements.txt
 ```
 
-Some of the install modelues require a reactivating your virtual environment before taking effect 
+Some of the installed modules require reactivating your virtual environment to take effect
 ```bash
 deactivate
 source .venv/dbt-atp-tour/bin/activate
