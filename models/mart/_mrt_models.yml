@@ -51,3 +51,18 @@ models:
         description: This is the foreign key to dim_player
         tests:
             - not_null
+
+      - name: dim_date_winner_date_of_birth_key
+        description: This is the foreign key to dim_date of the winner's date of birth
+        tests:
+            - not_null
+
+      - name: dim_date_loser_date_of_birth_key
+        description: This is the foreign key to dim_date of the loser's date of birth
+        tests:
+            - not_null
+
+  - name: rpt_match_summary
+    description: This is a summary of match information. One row per match.
+    docs:
+      node_color: 'orange'
