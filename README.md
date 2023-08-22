@@ -66,7 +66,7 @@ A browser should open with the docs site or [click here](http://127.0.0.1:8080/#
 
 Use the `DuckDB CLI` to query the `DuckDB` database. Download and unzip the CLI
 ```bash
-curl -OL https://github.com/duckdb/duckdb/releases/download/v0.7.1/duckdb_cli-osx-universal.zip
+curl -OL https://github.com/duckdb/duckdb/releases/download/v0.8.1/duckdb_cli-osx-universal.zip
 unzip duckdb_cli-osx-universal.zip
 ```
 

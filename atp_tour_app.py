@@ -52,6 +52,10 @@ def get_match_info(player1_name: str, player2_name: str) -> dict:
                   ,round as "Round"
                   ,winner as "Winner"
                   ,score as "Score"
+                  ,matches as "Matches"
+                  ,aces as "Aces"
+                  ,year as "Year"
+                  ,hand as "Hand"
               from mart.rpt_match_summary m
              where (winner = $player1_name and loser = $player2_name) or (loser = $player1_name and winner = $player2_name)
              order by date desc
@@ -98,29 +102,57 @@ def main() -> None:
                 st.markdown(f'#### By Surface')
                 by_surface = atp_tour.sql(
                     """
-                    select winner as player
-                          ,surface
-                          ,count(*) as wins
+                    select Winner as Player
+                          ,Surface
+                          ,count(*) as Wins
                       from matches_info
                      group by all
                     """
                 ).df()
-                st.dataframe(by_surface.pivot(index="Surface", columns="player" ,values="wins"))
+                st.dataframe(by_surface.pivot(index="Surface", columns="Player" ,values="Wins"))
+                
             with right:
                 st.markdown(f'#### By Round')
                 by_surface = atp_tour.sql(
                     """
-                    select winner as player
-                          ,round
-                          ,count(*) as wins
+                    select Winner as Player
+                          ,Round
+                          ,count(*) as Wins
                       from matches_info
                      group by all
                     """
                 ).df()
-                st.dataframe(by_surface.pivot(index="Round", columns="player" ,values="wins"))
+                st.dataframe(by_surface.pivot(index="Round", columns="Player" ,values="Wins"))
 
             st.markdown(f'#### Matches')
             st.dataframe(matches_info)
+
+            left, right = st.columns(2)
+            with left:
+                st.markdown(f'#### By Matches')
+                by_matches = atp_tour.sql(
+                    """
+                    select Winner as Player
+                          ,Year
+                          ,sum(Matches) as Matches
+                      from matches_info
+                     group by all
+                    """
+                ).df()
+                st.line_chart(data=by_matches, x="Year", y=["Matches"])
+                
+            with right:
+                st.markdown(f'#### By Aces')
+                by_aces = atp_tour.sql(
+                    """
+                    select Winner as Player
+                          ,Year
+                          ,sum(Aces) as Aces
+                      from matches_info
+                     group by all
+                    """
+                ).df()
+                st.line_chart(data=by_aces, x="Year", y=["Aces"])
 
 if __name__ == "__main__":
     main()

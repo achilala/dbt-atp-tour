@@ -27,6 +27,10 @@ with matches as (
         ,w.player_name as "Winner"
         ,l.player_name as "Loser"
         ,m.score as "Score"
+        ,m.num_of_matches as "Matches"
+        ,m.winner_num_of_aces as "Aces"
+        ,d.year as "Year"
+        ,w.dominant_hand as "Hand"
     from matches m
     join dates d on d.dim_date_key = m.dim_tournament_date_key
     join tournaments t on t.dim_tournament_key = m.dim_tournament_key
