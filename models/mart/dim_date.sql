@@ -18,7 +18,9 @@ with date_spine as (
 , calendar as (
   select strftime(date_day, '%Y%m%d') as dim_date_key
         ,date_day
-        ,strftime(date_day, '%d/%m/%Y') as date_ddmmyyy
+        ,strftime(date_day, '%Y-%m-%d') as date_iso
+        ,strftime(date_day, '%d/%m/%Y') as date_gb
+        ,strftime(date_day, '%m/%d/%Y') as date_us
         ,strftime(date_day, '%A') as day_of_week
         ,isodow(date_day) as day_of_week_number
         ,strftime(date_day, '%a') as day_of_week_abbr
@@ -55,7 +57,9 @@ with date_spine as (
 , unknown_record as (
     select dim_date_key
           ,date_day
-          ,date_ddmmyyy
+          ,date_iso
+          ,date_gb
+          ,date_us
           ,day_of_week_number
           ,day_of_week
           ,day_of_week_abbr
@@ -102,7 +106,9 @@ with date_spine as (
     
     select unknown_key as dim_date_key
           ,unknown_null as date_day
-          ,unknown_text as date_ddmmyyy
+          ,unknown_text as date_iso
+          ,unknown_text as date_gb
+          ,unknown_text as date_us
           ,unknown_integer as day_of_week_number
           ,unknown_text as day_of_week
           ,unknown_text as day_of_week_abbr
