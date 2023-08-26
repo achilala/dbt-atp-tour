@@ -91,7 +91,7 @@ def download_and_read_countries_json_file() -> None:
     response = requests.get(url)
     json_data = response.json()
     # Save the data as a JSON file
-    json_file = '_countries.json'
+    json_file = '.countries.json'
     with open(json_file, 'w') as file:
         json.dump(json_data, file, indent=4)
 

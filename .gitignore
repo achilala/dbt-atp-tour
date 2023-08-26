@@ -5,6 +5,5 @@ logs/
 .venv
 
 .*
-_*
 *.log
 *duckdb*
