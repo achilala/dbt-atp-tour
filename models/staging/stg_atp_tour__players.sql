@@ -7,6 +7,10 @@ with atp_tour_players as (
     select *
       from {{ source('atp_tour', 'players') }}
 )
+, conversion_units as (
+    select *
+      from {{ ref('ref_conversion_units') }}
+)
 , renamed as (
     select player_id::int as player_id
           ,name_first||' '||name_last::varchar(100) as player_name
@@ -23,9 +27,10 @@ with atp_tour_players as (
           ,(year(current_date) - year(dob))::smallint as age
           ,ioc::varchar(3) as country_iso_code
           ,height::smallint as height_in_centimeters
-          ,round(height * 0.0328084, 1)::decimal(3,1) as height_in_inches
+          ,round(height * cu.centimeters_to_inches, 1)::decimal(3,1) as height_in_inches
           ,wikidata_id::varchar(10) as wikidata_id
-      from atp_tour_players
+      from atp_tour_players p
+      left join conversion_units cu on 1 = 1
 )
 , renamed2 as (
     select player_id
