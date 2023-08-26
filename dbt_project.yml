@@ -45,7 +45,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 seeds:
   dbt_atp_tour:
-    +schema: util
+    +schema: lookup
+    +docs:
+      node_color: "black"
 
 models:
   dbt_atp_tour:
@@ -53,9 +55,6 @@ models:
     +materialized: view
     staging:
       +schema: staging
-
-    util:
-      +schema: util
 
     mart:
       +schema: mart
