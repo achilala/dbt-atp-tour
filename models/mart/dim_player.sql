@@ -78,6 +78,9 @@ with players as (
         ,unknown_text as nationality
         ,unknown_text as country_iso_code
         ,unknown_text as country_name
+        ,unknown_text as flag
+        ,unknown_integer as population
+        ,unknown_text as region
         ,unknown_text as continent
         ,unknown_integer as height_in_centimeters
         ,unknown_float as height_in_inches
@@ -102,8 +105,11 @@ with players as (
         ,p.age_incl_date_of_birth
         ,p.age
         ,c.nationality
-        ,p.country_iso_code
+        ,c.country_iso_code
         ,c.country_name
+        ,c.flag
+        ,c.population
+        ,c.region
         ,c.continent
         ,p.height_in_centimeters
         ,p.height_in_inches

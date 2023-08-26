@@ -12,6 +12,9 @@ with atp_tour_countries as (
           ,name.common::varchar(100) as country_name
           ,demonyms.eng.f::varchar(100) as nationality
           ,region::varchar(100) as continent
+          ,subregion::varchar(100) as region
+          ,flag::varchar(100) as flag
+          ,population::int as population
       from atp_tour_countries
 )
 , surrogate_keys as (
