@@ -13,7 +13,7 @@ with date_spine as (
 )
 , ref_unknown_record as (
 	select *
-	  from {{ ref('ref_unknown_value') }}
+	  from {{ ref('ref_unknown_values') }}
 )
 , calendar as (
   select strftime(date_day, '%Y%m%d') as dim_date_key

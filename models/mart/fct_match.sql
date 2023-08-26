@@ -13,7 +13,7 @@ with matches as (
 )
 , ref_unknown_record as (
 	select *
-	  from {{ ref('ref_unknown_value') }}
+	  from {{ ref('ref_unknown_values') }}
 )
 , match as (
 	select coalesce(tournament_sk, u.unknown_key) as dim_tournament_key

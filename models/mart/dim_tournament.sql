@@ -9,7 +9,7 @@ with matches as (
 )
 , ref_unknown_record as (
 	select *
-	  from {{ ref('ref_unknown_value') }}
+	  from {{ ref('ref_unknown_values') }}
 )
 , tourney as (
 	select tournament_sk as dim_tournament_key

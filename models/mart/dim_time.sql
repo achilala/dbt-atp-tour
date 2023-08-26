@@ -14,7 +14,7 @@ with recursive num_of_minutes as (
 )
 , ref_unknown_record as (
 	select *
-	  from {{ ref('ref_unknown_value') }}
+	  from {{ ref('ref_unknown_values') }}
 )
 , time_series as (
   select minute_num

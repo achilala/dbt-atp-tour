@@ -17,7 +17,7 @@ with players as (
 )
 , ref_unknown_record as (
 	select *
-	  from {{ ref('ref_unknown_value') }}
+	  from {{ ref('ref_unknown_values') }}
 )
 , match_player_names as (
   select distinct winner_id as player_id
@@ -66,7 +66,7 @@ with players as (
 )
 , unknown_record as (
 	select unknown_key as dim_player_key
-		    ,unknown_integer as player_id
+		    ,unknown_text as player_id
         ,unknown_text as player_name
         ,unknown_text as player_aka
         ,unknown_text as first_name
