@@ -84,16 +84,17 @@ def read_atp_matches_csv_files(base_url: str, schema_name: str, year_from: int, 
         """
     )
 
-def download_and_read_countries_json_file(schema_name: str) -> None:
+def download_countries_data_to_json_file(json_file: str) -> None:
     url = 'https://restcountries.com/v3.1/all'
     # display files to download
     log.debug(colored(f"downloading countries json file: {url}", 'magenta'))
     response = requests.get(url)
     json_data = response.json()
     # Save the data as a JSON file
-    json_file = '.countries.json'
     with open(json_file, 'w') as file:
         json.dump(json_data, file, indent=4)
+
+def read_countries_data(schema_name: str, json_file: str) -> None:
     # make sure schema exists
     create_schema_if_not_exists(schema_name=schema_name)
     # import matches into raw schema
@@ -111,6 +112,7 @@ def download_and_read_countries_json_file(schema_name: str) -> None:
 def main() -> None:
     base_url = "https://github.com/JeffSackmann/tennis_atp/blob/master"
     schema_name = "raw"
+    json_file = '.countries.json'
     read_atp_players_csv_file(
         base_url=base_url,
         schema_name=schema_name
@@ -121,8 +123,12 @@ def main() -> None:
         year_from=1968,
         year_to=2023
     )
-    download_and_read_countries_json_file(
-        schema_name=schema_name
+    download_countries_data_to_json_file(
+        json_file=json_file
+    )
+    read_countries_data(
+        schema_name=schema_name,
+        json_file=json_file
     )
 
 if __name__ == "__main__":
