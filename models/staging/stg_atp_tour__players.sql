@@ -7,6 +7,12 @@ with atp_tour_players as (
     select *
       from {{ source('atp_tour', 'players') }}
 )
+, no_duplicate_players as (
+     -- temporal patch awaiting permanent fix
+    select *
+      from atp_tour_players
+     where player_id not in (148670, 148671)
+)
 , conversion_units as (
     select *
       from {{ ref('ref_conversion_units') }}
@@ -29,7 +35,7 @@ with atp_tour_players as (
           ,height::smallint as height_in_centimeters
           ,round(height * cu.centimeters_to_inches, 1)::decimal(3,1) as height_in_inches
           ,wikidata_id::varchar(10) as wikidata_id
-      from atp_tour_players p
+      from no_duplicate_players p
       left join conversion_units cu on 1 = 1
 )
 , renamed2 as (
