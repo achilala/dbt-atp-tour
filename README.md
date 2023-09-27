@@ -64,18 +64,25 @@ A browser should open with the docs site or [click here](http://127.0.0.1:8080/#
 ^c
 ```
 
-Use the `DuckDB CLI` to query the `DuckDB` database. Download and unzip the CLI
+Use the `DuckDB CLI` to query the `DuckDB` database. If you don't already have DuckDB v0.8.1 or higher installed then proceed to do the following:
+
+Download and unzip the CLI
 ```bash
 curl -OL https://github.com/duckdb/duckdb/releases/download/v0.8.1/duckdb_cli-osx-universal.zip
 unzip duckdb_cli-osx-universal.zip
 ```
 
-Open the database
+Open the database using the downloaded DuckDB CLI like this
 ```bash
 ./duckdb --readonly atp_tour.duckdb
 ```
 
-Sample query
+And if you already have DuckDB install then open the database like this
+```bash
+duckdb --readonly atp_tour.duckdb
+```
+
+To sample the players data try the following
 ```sql
 summarize mart.dim_player;
 
