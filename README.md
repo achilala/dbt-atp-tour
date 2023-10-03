@@ -96,10 +96,25 @@ Now that the data is modeled, we can now run the streamlit app
 streamlit run atp_tour_app.py
 ```
 
-For BI and analysing the data we'll use Metabase, run Docker to setup it up
+For BI and analysing the data we'll use `Metabase`, run Docker to setup it up
 ```sh
 docker-compose up --build
 ```
+
+To tear down the `Metabase` setup and start again
+```sh
+docker-compose down
+```
+
+Configure `Metabase` as follows:
+```
+Add your data: DuckDB
+Display name: ATP Tour
+Database file: /home/db/atp_tour.duckdb
+```
+
+You're now ready to browse the data! Raw data is in the `raw` schema and the final dimensional model is in `mart`
+
 
 For consuming the data from other apps, run the following command to start the API service
 ```sh
