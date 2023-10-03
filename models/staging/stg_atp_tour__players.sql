@@ -8,13 +8,12 @@ with atp_tour_players as (
       from {{ source('atp_tour', 'players') }}
 )
 , no_duplicate_players as (
-     -- temporal patch awaiting permanent fix for player ids 148670 and 148671
+     -- temporal patch awaiting permanent fix for duplaicate player ids i.e 148670 and 148671
     select *
       from (
             select *
                   ,row_number() over (partition by player_id order by player_id) as num_of_duplicate_players
               from atp_tour_players
-             where player_id not in (148670, 148671)
       )
      where num_of_duplicate_players = 1
 )
