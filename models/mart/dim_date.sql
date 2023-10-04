@@ -35,7 +35,7 @@ with date_spine as (
         ,last_day(date_day) as last_day_of_month
         ,'Q'||date_part('quarter', date_day) as quarter_of_year
         ,strftime(date_day, '%Y') as year
-        ,strftime(date_day, '%y') as year_abbr
+        ,'C'||strftime(date_day, '%y') as year_abbr
         ,date_diff('day', strftime(now(), '%Y-%m-%d')::date, date_day) as day_offset
         ,date_diff('week', strftime(now(), '%Y-%m-%d')::date, date_day) as week_offset
         ,date_diff('month', strftime(now(), '%Y-%m-%d')::date, date_day) as month_offset
@@ -51,7 +51,7 @@ with date_spine as (
         ,date_day + interval 1 year as same_day_next_year
         ,'Q'||date_part('quarter', date_day + interval 6 month) as fiscal_quarter_of_year
         ,strftime(date_day + interval 6 month, '%Y') as fiscal_year
-        ,strftime(date_day + interval 6 month, '%y') as fiscal_year_abbr
+        ,'F'||strftime(date_day + interval 6 month, '%y') as fiscal_year_abbr
     from date_spine
 )
 , unknown_record as (
@@ -79,7 +79,7 @@ with date_spine as (
           ,month_of_year||' '||month_name_abbr as month_numbered
           ,first_day_of_month
           ,last_day_of_month
-          ,quarter_of_year||' CY'||year_abbr as quarter
+          ,quarter_of_year||' '||year_abbr as quarter
           ,quarter_of_year
           ,year
           ,year_abbr
@@ -96,7 +96,7 @@ with date_spine as (
           ,same_day_next_fortnight
           ,same_day_next_month
           ,same_day_next_year
-          ,fiscal_quarter_of_year||' FY'||fiscal_year_abbr as fiscal_quarter
+          ,fiscal_quarter_of_year||' '||fiscal_year_abbr as fiscal_quarter
           ,fiscal_quarter_of_year
           ,fiscal_year
           ,fiscal_year_abbr
