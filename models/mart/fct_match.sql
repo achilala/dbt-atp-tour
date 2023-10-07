@@ -24,12 +24,12 @@ with matches as (
 		  ,coalesce(l.date_of_birth_key, u.unknown_key) as dim_date_loser_date_of_birth_key
 		  ,coalesce(score, 0) as score
 		  ,coalesce(best_of, 0) as best_of
-		  ,coalesce(best_of_labeled, 'Unknown') as best_of_labeled
+		  ,coalesce(best_of_labeled, u.unknown_text) as best_of_labeled
 		  ,coalesce(round, 0) as round
 		  ,coalesce(minutes, 0) as minutes
 		  ,1 as num_of_matches
 		  ,coalesce(winner_seed, 0) as winner_seed
-		  ,coalesce(winner_entry, 'Unknown') as winner_entry
+		  ,coalesce(winner_entry, u.unknown_text) as winner_entry
 		  ,coalesce(winner_height_cm, 0) as winner_height_cm
 		  ,coalesce(winner_age, 0) as winner_age
 		  ,coalesce(winner_num_of_aces, 0) as winner_num_of_aces
@@ -44,7 +44,7 @@ with matches as (
 		  ,coalesce(winner_rank, 0) as winner_rank
 		  ,coalesce(winner_rank_pts, 0) as winner_rank_pts
 		  ,coalesce(loser_seed, 0) as loser_seed
-		  ,coalesce(loser_entry, 'Unknown') as loser_entry
+		  ,coalesce(loser_entry, u.unknown_text) as loser_entry
 		  ,coalesce(loser_height_cm, 0) as loser_height_cm
 		  ,coalesce(loser_age, 0) as loser_age
 		  ,coalesce(loser_num_of_aces, 0) as loser_num_of_aces
