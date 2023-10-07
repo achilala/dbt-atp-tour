@@ -16,11 +16,11 @@ with date_spine as (
 	  from {{ ref('ref_unknown_values') }}
 )
 , calendar as (
-  select strftime(date_day, '%Y%m%d') as dim_date_key
+  select {{ to_date_key('date_day') }} as dim_date_key
         ,date_day
-        ,strftime(date_day, '%Y-%m-%d') as date_iso
-        ,strftime(date_day, '%d/%m/%Y') as date_gb
-        ,strftime(date_day, '%m/%d/%Y') as date_us
+        ,{{ to_iso_date('date_day') }} as date_iso
+        ,{{ to_date_gb('date_day') }} as date_gb
+        ,{{ to_date_us('date_day') }} as date_us
         ,strftime(date_day, '%A') as day_of_week
         ,isodow(date_day) as day_of_week_number
         ,strftime(date_day, '%a') as day_of_week_abbr

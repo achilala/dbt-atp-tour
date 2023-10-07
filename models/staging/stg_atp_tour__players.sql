@@ -50,7 +50,7 @@ with atp_tour_players as (
           ,dominant_hand
           ,date_of_birth
           ,age
-          ,age||' ('||strftime(date_of_birth, '%Y.%m.%d')||')'::varchar(20) as age_incl_date_of_birth
+          ,age||' ('||{{ to_iso_date_us('date_of_birth') }}||')'::varchar(20) as age_incl_date_of_birth
           ,age_incl_date_of_birth
           ,country_iso_code
           ,height_in_centimeters
@@ -61,7 +61,8 @@ with atp_tour_players as (
 )
 , surrogate_keys as (
     select {{ dbt_utils.surrogate_key(['player_id']) }} as player_sk
-          ,strftime(date_of_birth, '%Y%m%d') as date_of_birth_key
+          ,{{ to_date_key('date_of_birth') }}::int as date_of_birth_key
+          ,{{ to_time_key('date_of_birth') }}::int as time_of_birth_key
           ,*
       from renamed2
 )

@@ -117,7 +117,7 @@ with atp_tour_matches as (
 , surrogate_keys as (
     select {{ dbt_utils.surrogate_key(['tournament_id', 'tournament_date']) }} as tournament_sk
           ,{{ dbt_utils.surrogate_key(['tournament_id', 'match_id']) }} as match_sk
-          ,strftime(tournament_date, '%Y%m%d')::int as tournament_date_key
+          ,{{ to_date_key('tournament_date') }}::int as tournament_date_key
           ,{{ dbt_utils.surrogate_key(['winner_id']) }} as player_winner_key
           ,{{ dbt_utils.surrogate_key(['loser_id']) }} as player_loser_key
           ,*
