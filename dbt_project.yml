@@ -52,7 +52,7 @@ seeds:
 models:
   dbt_atp_tour:
     # Config indicated by + and applies to all files under models/example/
-    +materialized: view
+    +materialized: table
     staging:
       +schema: staging
 
