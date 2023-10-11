@@ -63,7 +63,9 @@ with atp_tour_players as (
     select {{ dbt_utils.surrogate_key(['player_id']) }} as player_sk
           ,{{ to_date_key('date_of_birth') }}::int as date_of_birth_key
           ,{{ to_time_key('date_of_birth') }}::int as time_of_birth_key
+          ,{{ to_iso_date('date_of_birth') }} as date_of_birth
           ,*
+          exclude(date_of_birth) -- Metabase has a problem with the dob column for some strange reason, so excluding it for now
       from renamed2
 )
 select *
