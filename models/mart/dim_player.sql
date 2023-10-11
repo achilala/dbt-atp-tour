@@ -72,7 +72,7 @@ with players as (
         ,unknown_text as first_name
         ,unknown_text as last_name
         ,unknown_text as dominant_hand
-        -- ,unknown_date as date_of_birth
+        ,unknown_text as date_of_birth
         ,unknown_text as age_incl_date_of_birth
         ,unknown_integer as age
         ,unknown_text as nationality
@@ -86,6 +86,7 @@ with players as (
         ,unknown_float as height_in_inches
         ,unknown_text as height
         ,unknown_text as wikidata_id
+        ,unknown_integer as num_of_players
         ,unknown_integer as num_of_wins
         ,unknown_integer as num_of_losses
         ,unknown_text as career_wins_vs_losses
@@ -101,7 +102,7 @@ with players as (
         ,p.first_name
         ,p.last_name
         ,p.dominant_hand
-        -- ,p.date_of_birth
+        ,p.date_of_birth
         ,p.age_incl_date_of_birth
         ,p.age
         ,c.nationality
@@ -115,6 +116,7 @@ with players as (
         ,p.height_in_inches
         ,p.height
         ,p.wikidata_id
+        ,p.num_of_players
         ,w.num_of_wins
         ,l.num_of_losses
         ,w.num_of_wins||'/'||l.num_of_losses as career_wins_vs_losses
