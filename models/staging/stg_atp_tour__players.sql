@@ -39,6 +39,7 @@ with atp_tour_players as (
           ,height::smallint as height_in_centimeters
           ,round(height * cu.centimeters_to_inches, 1)::decimal(3,1) as height_in_inches
           ,wikidata_id::varchar(10) as wikidata_id
+          ,1 as num_of_players
       from no_duplicate_players p
       left join conversion_units cu on 1 = 1
 )
@@ -57,6 +58,7 @@ with atp_tour_players as (
           ,height_in_inches
           ,replace(height_in_inches, '.', '''')||'" ('||height_in_centimeters||' cm)'::varchar(20) as height
           ,wikidata_id
+          ,num_of_players
       from renamed
 )
 , surrogate_keys as (
