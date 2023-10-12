@@ -9,16 +9,16 @@ config-version: 2
 # This setting configures which "profile" dbt uses for this project.
 profile: 'dbt_atp_tour'
 
-# vars:
-#   dbt_date_formart: '%Y-%m-%d'
-#   dbt_time_formart: '%H:%M:%S%z'
-#   dbt_datetime_format: '{{ var("dbt_date_formart") }} {{ var("dbt_time_formart") }}'
-#   dbt_timezone: 'Pacific/Auckland'
-#   dbt_current_date: '{{ run_started_at.astimezone(modules.pytz.timezone(var("dbt_timezone"))).strftime(var("dbt_date_formart")) }}'
-#   dbt_current_datetime: '{{ run_started_at.astimezone(modules.pytz.timezone(var("dbt_timezone"))).strftime(var("dbt_datetime_format")) }}'
+vars:
+  dbt_date_format: '%Y-%m-%d'
+  dbt_time_format: '%H:%M:%S%z'
+  dbt_datetime_format: '{{ var("dbt_date_format") }} {{ var("dbt_time_format") }}'
+  dbt_timezone: 'Pacific/Auckland'
+  dbt_current_date: '{{ run_started_at.astimezone(modules.pytz.timezone(var("dbt_timezone"))).strftime(var("dbt_date_format")) }}'
+  dbt_current_datetime: '{{ run_started_at.astimezone(modules.pytz.timezone(var("dbt_timezone"))).strftime(var("dbt_datetime_format")) }}'
 
-#   calendar_start_date: '1800-01-01'
-#   calendar_end_date: '2025-07-01'
+  calendar_start_date: '1800-01-01'
+  calendar_end_date: '{{ var("dbt_current_date") }}'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
