@@ -15,7 +15,7 @@ with atp_tour_countries as (
           ,subregion::varchar(100) as region
           ,flag::varchar(100) as flag
           ,population::int as population
-          ,json_array_length(borders) as num_of_borders
+          ,coalesce(json_array_length(borders), 0)::int as num_of_borders
       from atp_tour_countries
 )
 , surrogate_keys as (
