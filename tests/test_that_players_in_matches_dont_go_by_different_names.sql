@@ -2,7 +2,7 @@ with atp_tour_matches as (
     select *
       from {{ source('atp_tour', 'matches') }}
 )
-, names as (
+, players as (
   select winner_id as player_id
         ,winner_name as player_name
     from atp_tour_matches
@@ -12,13 +12,13 @@ with atp_tour_matches as (
     from atp_tour_matches
 
 )
-, duplicates as (
+, players_going_by_different_names as (
   select player_id
         ,player_name
-    from names
+    from players
    group by all
   having count(1) > 1
 )
 select *
-  from duplicates
+  from players_going_by_different_names
  order by player_id
