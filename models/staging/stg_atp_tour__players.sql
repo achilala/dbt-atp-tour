@@ -8,7 +8,7 @@ with atp_tour_players as (
       from {{ source('atp_tour', 'players') }}
 )
 , no_duplicate_players as (
-     -- temporal patch awaiting permanent fix for duplaicate player ids i.e 148670 and 148671
+    -- temporal patch awaiting permanent fix for duplaicate player ids i.e 148670 and 148671
     select *
       from (
             select *
@@ -34,7 +34,7 @@ with atp_tour_players as (
               else hand
            end::varchar(15) as dominant_hand
           ,dob::date as date_of_birth
-          ,(year(current_date) - year(dob))::smallint as age
+          ,{{ to_age('dob') }}::smallint as age
           ,ioc::varchar(3) as country_iso_code
           ,height::smallint as height_in_centimeters
           ,round(height * cu.centimeters_to_inches, 1)::decimal(3,1) as height_in_inches

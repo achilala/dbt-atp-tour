@@ -39,3 +39,10 @@
 
     {{ return(output) }}
 {% endmacro %}
+
+-- macro that returns the current age from a time
+{% macro to_age(_timestamp_column) %}
+    {% set output = "(year(current_date) - year(" ~ _timestamp_column ~ "))" %}
+
+    {{ return(output) }}
+{% endmacro %}
