@@ -68,7 +68,7 @@ Use the `DuckDB CLI` to query the `DuckDB` database. If you don't already have D
 
 Download and unzip the CLI
 ```bash
-curl -OL https://github.com/duckdb/duckdb/releases/download/v0.8.1/duckdb_cli-osx-universal.zip
+curl -OL https://github.com/duckdb/duckdb/releases/download/v0.9.1/duckdb_cli-osx-universal.zip
 unzip duckdb_cli-osx-universal.zip
 ```
 
