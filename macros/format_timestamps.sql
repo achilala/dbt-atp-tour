@@ -1,48 +1,48 @@
 -- macro that formats a timestamp to a date key that references the DIM_DATE dimension table
-{% macro to_date_key(_timestamp_column) %}
-    {% set output = "strftime(" ~ _timestamp_column ~ ", '%Y%m%d')" %}
+{% macro to_date_key(timestamp_column) %}
+    {% set _result = "strftime(" ~ timestamp_column ~ ", '%Y%m%d')" %}
 
-    {{ return(output) }}
+    {{ return(_result) }}
 {% endmacro %}
 
 -- macro that formats a timestamp to a time key that references the DIM_TIME dimension table
-{% macro to_time_key(_timestamp_column) %}
-    {% set output = "strftime(" ~ _timestamp_column ~ ", '%H%M')" %}
+{% macro to_time_key(timestamp_column) %}
+    {% set _result = "strftime(" ~ timestamp_column ~ ", '%H%M')" %}
 
-    {{ return(output) }}
+    {{ return(_result) }}
 {% endmacro %}
 
 -- macro that formats a timestamp to the ISO8601 date format
-{% macro to_iso_date(_timestamp_column) %}
-    {% set output = "strftime(" ~ _timestamp_column ~ ", '%Y-%m-%d')" %}
+{% macro to_iso_date(timestamp_column) %}
+    {% set _result = "strftime(" ~ timestamp_column ~ ", '%Y-%m-%d')" %}
 
-    {{ return(output) }}
+    {{ return(_result) }}
 {% endmacro %}
 
 -- macro that formats a timestamp to the ISO8601 date format but with dots delimiters instead of dashes
-{% macro to_iso_date_us(_timestamp_column) %}
-    {% set output = "strftime(" ~ _timestamp_column ~ ", '%Y.%m.%d')" %}
+{% macro to_iso_date_us(timestamp_column) %}
+    {% set _result = "strftime(" ~ timestamp_column ~ ", '%Y.%m.%d')" %}
 
-    {{ return(output) }}
+    {{ return(_result) }}
 {% endmacro %}
 
 -- macro that formats a timestamp to British date
-{% macro to_date_gb(_timestamp_column) %}
-    {% set output = "strftime(" ~ _timestamp_column ~ ", '%d/%m/%Y')" %}
+{% macro to_date_gb(timestamp_column) %}
+    {% set _result = "strftime(" ~ timestamp_column ~ ", '%d/%m/%Y')" %}
 
-    {{ return(output) }}
+    {{ return(_result) }}
 {% endmacro %}
 
 -- macro that formats a timestamp to US date
-{% macro to_date_us(_timestamp_column) %}
-    {% set output = "strftime(" ~ _timestamp_column ~ ", '%m/%d/%Y')" %}
+{% macro to_date_us(timestamp_column) %}
+    {% set _result = "strftime(" ~ timestamp_column ~ ", '%m/%d/%Y')" %}
 
-    {{ return(output) }}
+    {{ return(_result) }}
 {% endmacro %}
 
 -- macro that returns the current age from a time
-{% macro to_age(_timestamp_column) %}
-    {% set output = "(year(current_date) - year(" ~ _timestamp_column ~ "))" %}
+{% macro to_age(timestamp_column) %}
+    {% set _result = "(year(current_date) - year(" ~ timestamp_column ~ "))" %}
 
-    {{ return(output) }}
+    {{ return(_result) }}
 {% endmacro %}
