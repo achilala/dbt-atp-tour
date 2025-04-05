@@ -90,7 +90,7 @@ with players as (
         ,unknown_integer as num_of_wins
         ,unknown_integer as num_of_losses
         ,unknown_text as career_wins_vs_losses
-        ,unknown_float as career_win_ratio
+        ,unknown_text as career_win_ratio
     from ref_unknown_record
 
     union all
@@ -120,7 +120,7 @@ with players as (
         ,w.num_of_wins
         ,l.num_of_losses
         ,w.num_of_wins||'/'||l.num_of_losses as career_wins_vs_losses
-        ,round((1.0 * w.num_of_wins) / (w.num_of_wins + l.num_of_losses), 2) as career_win_ratio
+        ,round((1.0 * w.num_of_wins) / (w.num_of_wins + l.num_of_losses), 2)::varchar as career_win_ratio
 	  from players p
 	  left join longer_player_name n on p.player_id = n.player_id
 	  left join num_of_wins_by_player w on p.player_id = w.player_id

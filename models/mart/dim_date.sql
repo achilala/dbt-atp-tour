@@ -7,7 +7,7 @@ with date_spine as (
   {{ dbt_utils.date_spine(
       datepart="day",
       start_date="cast('1800-01-01' as date)",
-      end_date="cast('2025-07-01' as date)"
+      end_date="cast('2030-01-01' as date)"
     )
   }}
 )
@@ -17,7 +17,7 @@ with date_spine as (
 )
 , calendar as (
   select {{ to_date_key('date_day') }} as dim_date_key
-        ,date_day
+        ,date_day::date as date_day
         ,{{ to_iso_date('date_day') }} as date_iso
         ,{{ to_date_gb('date_day') }} as date_gb
         ,{{ to_date_us('date_day') }} as date_us

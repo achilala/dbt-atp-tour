@@ -56,7 +56,7 @@ with atp_tour_players as (
           ,country_iso_code
           ,height_in_centimeters
           ,height_in_inches
-          ,replace(height_in_inches, '.', '''')||'" ('||height_in_centimeters||' cm)'::varchar(20) as height
+          ,replace(height_in_inches::varchar, '.', '''')||'" ('||height_in_centimeters||' cm)'::varchar(20) as height
           ,wikidata_id
           ,num_of_players
       from renamed

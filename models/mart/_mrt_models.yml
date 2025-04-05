@@ -6,7 +6,7 @@ models:
     description: This is a dimension model which contains the date calendar. One row per date.
     columns:
       - name: dim_date_key
-        description: This is the unique surrogate key of each date
+        description: This is the unique surrogate key of each date.
         tests:
             - unique
             - not_null
@@ -15,7 +15,7 @@ models:
     description: This is a dimension model which contains tournaments. One row per tournament.
     columns:
       - name: dim_tournament_key
-        description: This is the unique surrogate key of each tournament
+        description: This is the unique surrogate key of each tournament.
         tests:
             - unique
             - not_null
@@ -24,7 +24,16 @@ models:
     description: This is a dimension model which contains players. One row per player.
     columns:
       - name: dim_player_key
-        description: This is the unique surrogate key of each player
+        description: This is the unique surrogate key of each player.
+        tests:
+            - unique
+            - not_null
+
+  - name: dim_match
+    description: This is a dimension model which contains match information. One row per match.
+    columns:
+      - name: dim_match_key
+        description: This is the unique surrogate key of each match.
         tests:
             - unique
             - not_null
@@ -33,32 +42,32 @@ models:
     description: This is a fact model which contains match events. One row per match.
     columns:
       - name: dim_tournament_key
-        description: This is the foreign key to dim_tournament
+        description: This is the foreign key to dim_tournament.
         tests:
             - not_null
 
       - name: dim_tournament_date_key
-        description: This is the foreign key to dim_date
+        description: This is the foreign key to dim_date.
         tests:
             - not_null
 
       - name: dim_player_winner_key
-        description: This is the foreign key to dim_player
+        description: This is the foreign key to dim_player.
         tests:
             - not_null
 
       - name: dim_player_loser_key
-        description: This is the foreign key to dim_player
+        description: This is the foreign key to dim_player.
         tests:
             - not_null
 
       - name: dim_date_winner_date_of_birth_key
-        description: This is the foreign key to dim_date of the winner's date of birth
+        description: This is the foreign key to dim_date of the winner's date of birth.
         tests:
             - not_null
 
       - name: dim_date_loser_date_of_birth_key
-        description: This is the foreign key to dim_date of the loser's date of birth
+        description: This is the foreign key to dim_date of the loser's date of birth.
         tests:
             - not_null
 

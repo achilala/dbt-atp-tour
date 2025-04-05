@@ -48,7 +48,7 @@ def read_atp_players_csv_file(base_url: str, schema_name: str) -> None:
     atp_tour.execute(
         f"""
         alter table {schema_name}.players
-            alter dob set data type date using cast(strptime(cast(regexp_replace(dob, '0000$', '0101') as string), '%Y%m%d') as date)
+            alter dob set data type date using strptime(regexp_replace(dob::varchar, '0000$', '0101'), '%Y%m%d')::date
         """
     )
 
@@ -121,7 +121,7 @@ def main() -> None:
         base_url=base_url,
         schema_name=schema_name,
         year_from=1968,
-        year_to=2023
+        year_to=2024
     )
     download_countries_data_to_json_file(
         json_file=json_file

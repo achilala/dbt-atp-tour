@@ -21,6 +21,8 @@ def search_players(search_term: str):
         select player_name
           from mart.dim_player
          where player_name ilike '%' || $search_term || '%'
+         order by player_name
+         limit 7
         """,
         {"search_term": search_term}
     ).fetchall()
@@ -30,7 +32,7 @@ def get_player_info(player_name: str) -> dict:
     return atp_tour.execute(
             """
             select p.age_incl_date_of_birth as "Age"
-                  ,p.country_name as "Birthplace"
+                  ,p.country_name || ' ' || p.flag as "Birthplace"
                   ,p.nationality as "Nationality"
                   ,p.continent as "Continent"
                   ,p.height as "Height"

@@ -6,3 +6,4 @@ logs/
 
 .*
 *duckdb*
+package-lock.yml
