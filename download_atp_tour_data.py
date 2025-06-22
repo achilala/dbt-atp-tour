@@ -85,7 +85,7 @@ def read_atp_matches_csv_files(base_url: str, schema_name: str, year_from: int, 
     )
 
 def download_countries_data_to_json_file(json_file: str) -> None:
-    url = 'https://restcountries.com/v3.1/all'
+    url = 'https://restcountries.com/v3.1/all?fields=cca3,name,demonyms,region,subregion,flag,population,borders'
     # display files to download
     log.debug(colored(f"downloading countries json file: {url}", 'magenta'))
     response = requests.get(url)
