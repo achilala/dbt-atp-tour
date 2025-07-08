@@ -20,8 +20,8 @@ cd dbt-atp-tour
 
 Create a virtual environment for your python dependencies and activate it. Your python dependencies will be installed here.
 ```bash
-python3 -m venv .venv/dbt-atp-tour
-source .venv/dbt-atp-tour/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
 Install the python dependencies
@@ -32,7 +32,7 @@ pip install -r requirements.txt
 Some of the installed modules require reactivating your virtual environment to take effect
 ```bash
 deactivate
-source .venv/dbt-atp-tour/bin/activate
+source .venv/bin/activate
 ```
 
 Running this python script will read the ATP tour data into a duckdb database called `atp_tour.duckdb`
@@ -66,37 +66,24 @@ A browser should open with the docs site or [click here](http://127.0.0.1:8080/#
 
 Use the `DuckDB CLI` to query the `DuckDB` database. If you don't already have DuckDB v0.8.1 or higher installed then proceed to do the following:
 
-Download and unzip the CLI
+Install DuckDB (Linux/macOS)
 ```bash
-curl -OL https://github.com/duckdb/duckdb/releases/download/v0.9.1/duckdb_cli-osx-universal.zip
-unzip duckdb_cli-osx-universal.zip
+curl https://install.duckdb.org | sh
 ```
 
-Open the database using the downloaded DuckDB CLI like this
+[View installation docs for Windows 🙄](https://duckdb.org/docs/installation/?version=stable&environment=cli&platform=win&download_method=direct&architecture=x86_64)
+
+Once installed you can open your database and browser the data
 ```bash
-./duckdb --readonly atp_tour.duckdb
+duckdb --readonly atp_tour.duckdb -ui
 ```
 
-And if you already have DuckDB install then open the database like this
-```bash
-duckdb --readonly atp_tour.duckdb
-```
-
-To sample the players data try the following
-```sql
-summarize mart.dim_player;
-
-select *
-  from mart.dim_player
- order by dim_player_key;
-```
-
-Now that the data is modeled, we can now run the streamlit app
+Now that the data is modeled, we can now run our streamlit app
 ```sh
 streamlit run atp_tour_app.py
 ```
 
-For BI and analysing the data we'll use `Metabase`, run Docker to setup it up
+We'll use `Metabase`,  for BI and analysing the data. Run Docker to setup it up
 ```sh
 docker-compose up --build
 ```
