@@ -42,7 +42,7 @@ python3 download_atp_tour_data.py
 
 A new file called `atp_tour.duckdb` should appear in the folder, and this is the `DuckDB` database file. The reason why `DuckDB` is my-go-to database is because it's very light, simple to setup and built for analytical processing.
 
-Before running `dbt` makes sure the `profiles.yml` file is setup corrently. The `path` in the file should point to your duckdb database and on mine it looks something like this `atp_tour.duckdb`.
+Before running `dbt` make sure the `profiles.yml` file is setup corrently. The `path` in the file should point to your duckdb database and on mine it looks something like this `atp_tour.duckdb`.
 
 Test your connection and adjust your `profiles.yml` settings accordingly until you get a successful test.
 ```bash
@@ -73,7 +73,7 @@ curl https://install.duckdb.org | sh
 
 [View installation docs for Windows 🙄](https://duckdb.org/docs/installation/?version=stable&environment=cli&platform=win&download_method=direct&architecture=x86_64)
 
-Once installed you can open your database and browser the data
+Once installed you can open your database and browse the data
 ```bash
 duckdb --readonly atp_tour.duckdb -ui
 ```
@@ -83,7 +83,7 @@ Now that the data is modeled, we can now run our streamlit app
 streamlit run atp_tour_app.py
 ```
 
-We'll use `Metabase`,  for BI and analysing the data. Run Docker to setup it up
+We'll use `Metabase`,  for BI and analysing the data. Run Docker to set it up
 ```sh
 docker-compose up --build
 ```
