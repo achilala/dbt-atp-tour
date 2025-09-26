@@ -17,12 +17,12 @@ with matches as (
 )
 , match as (
 	select coalesce(tournament_sk, u.unknown_key::varchar) as dim_tournament_key
-		  ,coalesce(tournament_date_key, u.unknown_key) as dim_tournament_date_key
+		  ,coalesce(tournament_date_key, u.unknown_key)::integer as dim_tournament_date_key
 		  ,coalesce(match_sk, u.unknown_key::varchar) as dim_match_key
 		  ,coalesce(player_winner_key, u.unknown_key::varchar) as dim_player_winner_key
 		  ,coalesce(player_loser_key, u.unknown_key::varchar) as dim_player_loser_key
-		  ,coalesce(w.date_of_birth_key, u.unknown_key) as dim_date_winner_date_of_birth_key
-		  ,coalesce(l.date_of_birth_key, u.unknown_key) as dim_date_loser_date_of_birth_key
+		  ,coalesce(w.date_of_birth_key, u.unknown_key)::integer as dim_date_winner_date_of_birth_key
+		  ,coalesce(l.date_of_birth_key, u.unknown_key)::integer as dim_date_loser_date_of_birth_key
 		  ,coalesce(minutes, 0) as minutes
 		  ,1 as num_of_matches
 		  ,coalesce(winner_seed, 0) as winner_seed

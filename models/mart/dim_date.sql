@@ -16,7 +16,7 @@ with date_spine as (
 	  from {{ ref('ref_unknown_values') }}
 )
 , calendar as (
-  select {{ to_date_key('date_day') }} as dim_date_key
+  select {{ to_date_key('date_day') }}::integer as dim_date_key
         ,date_day::date as date_day
         ,{{ to_iso_date('date_day') }} as date_iso
         ,{{ to_date_gb('date_day') }} as date_gb
@@ -25,32 +25,32 @@ with date_spine as (
         ,isodow(date_day) as day_of_week_number
         ,strftime(date_day, '%a') as day_of_week_abbr
         ,strftime(date_day, '%d') as day_of_month
-        ,strftime(date_day, '%-d') as day_of_month_number
+        ,strftime(date_day, '%-d')::integer as day_of_month_number
         ,strftime(date_day, '%j') as day_of_year
         ,strftime(date_day, '%W') as week_of_year
         ,strftime(date_day, '%m') as month_of_year
         ,strftime(date_day, '%B') as month_name
         ,strftime(date_day, '%b') as month_name_abbr
-        ,strftime(date_day, '%Y-%m-01') as first_day_of_month
+        ,strftime(date_day, '%Y-%m-01')::date as first_day_of_month
         ,last_day(date_day) as last_day_of_month
         ,'Q'||date_part('quarter', date_day) as quarter_of_year
-        ,strftime(date_day, '%Y') as year
+        ,strftime(date_day, '%Y')::integer as year
         ,'C'||strftime(date_day, '%y') as year_abbr
         ,date_diff('day', strftime(now(), '%Y-%m-%d')::date, date_day) as day_offset
         ,date_diff('week', strftime(now(), '%Y-%m-%d')::date, date_day) as week_offset
         ,date_diff('month', strftime(now(), '%Y-%m-%d')::date, date_day) as month_offset
         ,date_diff('quarter', strftime(now(), '%Y-%m-%d')::date, date_day) as quarter_offset
         ,date_diff('year', strftime(now(), '%Y-%m-%d')::date, date_day) as year_offset
-        ,date_day - interval 7 day as same_day_last_week
-        ,date_day - interval 14 day as same_day_last_fortnight
-        ,date_day - interval 1 month as same_day_last_month
-        ,date_day - interval 1 year as same_day_last_year
-        ,date_day + interval 7 day as same_day_next_week
-        ,date_day + interval 14 day as same_day_next_fortnight
-        ,date_day + interval 1 month as same_day_next_month
-        ,date_day + interval 1 year as same_day_next_year
+        ,(date_day - interval 7 day)::date as same_day_last_week
+        ,(date_day - interval 14 day)::date as same_day_last_fortnight
+        ,(date_day - interval 1 month)::date as same_day_last_month
+        ,(date_day - interval 1 year)::date as same_day_last_year
+        ,(date_day + interval 7 day)::date as same_day_next_week
+        ,(date_day + interval 14 day)::date as same_day_next_fortnight
+        ,(date_day + interval 1 month)::date as same_day_next_month
+        ,(date_day + interval 1 year)::date as same_day_next_year
         ,'Q'||date_part('quarter', date_day + interval 6 month) as fiscal_quarter_of_year
-        ,strftime(date_day + interval 6 month, '%Y') as fiscal_year
+        ,strftime(date_day + interval 6 month, '%Y')::integer as fiscal_year
         ,'F'||strftime(date_day + interval 6 month, '%y') as fiscal_year_abbr
     from date_spine
 )
@@ -132,14 +132,14 @@ with date_spine as (
           ,unknown_null as month_offset
           ,unknown_null as quarter_offset
           ,unknown_null as year_offset
-          ,unknown_date as same_day_last_week
-          ,unknown_date as same_day_last_fortnight
-          ,unknown_date as same_day_last_month
-          ,unknown_date as same_day_last_year
-          ,unknown_date as same_day_next_week
-          ,unknown_date as same_day_next_fortnight
-          ,unknown_date as same_day_next_month
-          ,unknown_date as same_day_next_year
+          ,unknown_date::date as same_day_last_week
+          ,unknown_date::date as same_day_last_fortnight
+          ,unknown_date::date as same_day_last_month
+          ,unknown_date::date as same_day_last_year
+          ,unknown_date::date as same_day_next_week
+          ,unknown_date::date as same_day_next_fortnight
+          ,unknown_date::date as same_day_next_month
+          ,unknown_date::date as same_day_next_year
           ,unknown_text as fiscal_quarter
           ,unknown_text as fiscal_quarter_of_year
           ,unknown_integer as fiscal_year
