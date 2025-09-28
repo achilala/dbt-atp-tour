@@ -34,7 +34,7 @@ with date_spine as (
         ,strftime(date_day, '%Y-%m-01')::date as first_day_of_month
         ,last_day(date_day) as last_day_of_month
         ,'Q'||date_part('quarter', date_day) as quarter_of_year
-        ,strftime(date_day, '%Y')::integer as year
+        ,strftime(date_day, '%Y') as year
         ,'C'||strftime(date_day, '%y') as year_abbr
         ,date_diff('day', strftime(now(), '%Y-%m-%d')::date, date_day) as day_offset
         ,date_diff('week', strftime(now(), '%Y-%m-%d')::date, date_day) as week_offset
@@ -50,7 +50,7 @@ with date_spine as (
         ,(date_day + interval 1 month)::date as same_day_next_month
         ,(date_day + interval 1 year)::date as same_day_next_year
         ,'Q'||date_part('quarter', date_day + interval 6 month) as fiscal_quarter_of_year
-        ,strftime(date_day + interval 6 month, '%Y')::integer as fiscal_year
+        ,strftime(date_day + interval 6 month, '%Y') as fiscal_year
         ,'F'||strftime(date_day + interval 6 month, '%y') as fiscal_year_abbr
     from date_spine
 )
