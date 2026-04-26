@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: int_atp__matches_enriched
+    description: >
+      One row per ATP match. Extends stg_atp_tour__matches with derived aggregate
+      statistics that combine winner and loser figures (e.g. total aces, total double
+      faults), and computes the age difference between the two players.
+      This is the primary input for the dimensional fact table.
+    columns:
+      - name: match_sk
+        description: MD5 surrogate key for the match. Inherited from staging.
+        tests:
+          - not_null
+      - name: total_num_of_aces
+        description: Combined aces served by both players in the match.
+      - name: total_num_of_double_faults
+        description: Combined double faults by both players in the match.
+      - name: total_num_of_serve_pts
+        description: Combined serve points played by both players.
+      - name: total_num_of_1st_serves_made
+        description: Combined first serves landed in by both players.
+      - name: total_num_of_1st_serve_pts_won
+        description: Combined first-serve points won by both players.
+      - name: total_num_of_2nd_serve_pts_won
+        description: Combined second-serve points won by both players.
+      - name: total_num_of_serve_games
+        description: Combined serve games played by both players.
+      - name: total_num_of_break_pts_saved
+        description: Combined break points saved by both players.
+      - name: total_num_of_break_pts_faced
+        description: Combined break points faced by both players.
+      - name: age_difference
+        description: Absolute age difference in years between winner and loser.
+
+  - name: int_atp__player_career_stats
+    description: >
+      One row per ATP player. Aggregates career win and loss counts from match history,
+      and resolves the canonical player name by preferring the longer of the name as
+      recorded in the players table vs. match records (the match name is sometimes more complete).
+    columns:
+      - name: player_id
+        description: Numeric player identifier. Natural key.
+        tests:
+          - unique
+          - not_null
+      - name: player_name
+        description: Canonical player name — the longer of the players-table name and the match-record name.
+      - name: player_aka
+        description: Alternative name for the player as seen in match records, when it differs from the canonical name.
+      - name: num_of_wins
+        description: Career total wins in the match dataset.
+      - name: num_of_losses
+        description: Career total losses in the match dataset.
+      - name: career_wins_vs_losses
+        description: Display string combining wins and losses (e.g. "523/198").
+      - name: career_win_ratio
+        description: Win ratio as a decimal string rounded to two places (e.g. "0.73").

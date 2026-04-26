@@ -1,0 +1,344 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: >
+      Date dimension spanning 1800-01-01 to the current run date. One row per calendar day.
+      Includes an 'Unknown' record with key -1 for referential integrity where dates are absent.
+    columns:
+      - name: dim_date_key
+        description: Integer surrogate key in YYYYMMDD format. -1 for the Unknown record.
+        tests:
+          - unique
+          - not_null
+      - name: date_day
+        description: The calendar date.
+      - name: date_iso
+        description: ISO 8601 date string (YYYY-MM-DD).
+      - name: date_gb
+        description: British-format date string (DD/MM/YYYY).
+      - name: date_us
+        description: US-format date string (MM/DD/YYYY).
+      - name: day_of_week
+        description: Full day name (e.g. Monday).
+      - name: day_of_week_number
+        description: ISO day-of-week number (1=Monday … 7=Sunday).
+      - name: day_of_week_abbr
+        description: Abbreviated day name (e.g. Mon).
+      - name: day_of_month
+        description: Zero-padded day of month string (e.g. 07).
+      - name: day_of_month_number
+        description: Day of month as an integer (1–31).
+      - name: day_ordinal_indicator
+        description: Ordinal suffix for the day of month (st, nd, rd, th).
+      - name: day_of_year
+        description: Zero-padded day of year (001–366).
+      - name: week_of_year
+        description: ISO week number of the year (00–53).
+      - name: month_of_year
+        description: Zero-padded month number (01–12).
+      - name: month_name
+        description: Full month name (e.g. January).
+      - name: month_name_abbr
+        description: Abbreviated month name (e.g. Jan).
+      - name: month_numbered
+        description: Display string combining month number and abbreviation (e.g. "01 Jan").
+      - name: first_day_of_month
+        description: Date of the first day of the calendar month.
+      - name: last_day_of_month
+        description: Date of the last day of the calendar month.
+      - name: quarter
+        description: Display string for the quarter within the year abbreviation (e.g. "Q1 C23").
+      - name: quarter_of_year
+        description: Quarter label (Q1–Q4).
+      - name: year
+        description: Four-digit year as a string.
+      - name: year_abbr
+        description: Two-digit year with century prefix (e.g. C23 for 2023).
+      - name: day_offset
+        description: Number of days from today (negative=past, 0=today, positive=future).
+      - name: week_offset
+        description: Number of weeks from the current week.
+      - name: month_offset
+        description: Number of months from the current month.
+      - name: quarter_offset
+        description: Number of quarters from the current quarter.
+      - name: year_offset
+        description: Number of years from the current year.
+      - name: same_day_last_week
+        description: The same weekday one week prior.
+      - name: same_day_last_fortnight
+        description: The same weekday two weeks prior.
+      - name: same_day_last_month
+        description: The same calendar day one month prior.
+      - name: same_day_last_year
+        description: The same calendar day one year prior.
+      - name: same_day_next_week
+        description: The same weekday one week ahead.
+      - name: same_day_next_fortnight
+        description: The same weekday two weeks ahead.
+      - name: same_day_next_month
+        description: The same calendar day one month ahead.
+      - name: same_day_next_year
+        description: The same calendar day one year ahead.
+      - name: fiscal_quarter
+        description: Fiscal quarter display string assuming a July–June fiscal year (e.g. "Q1 F24").
+      - name: fiscal_quarter_of_year
+        description: Fiscal quarter label (Q1–Q4) relative to July start.
+      - name: fiscal_year
+        description: Fiscal year as a four-digit integer.
+      - name: fiscal_year_abbr
+        description: Two-digit fiscal year with F prefix (e.g. F24).
+
+  - name: dim_time
+    description: >
+      Time dimension with one row per minute of the day (1 440 rows). Used for joining
+      on time-of-day fields. Includes an 'Unknown' record with key -1.
+    columns:
+      - name: dim_time_key
+        description: Integer surrogate key in HHMM format. -1 for the Unknown record.
+        tests:
+          - unique
+          - not_null
+      - name: the_time
+        description: TIME value for the minute.
+      - name: standard_time
+        description: 12-hour time display string with AM/PM (e.g. "1:30 PM").
+      - name: num_of_minutes
+        description: Minute offset from midnight (0–1439).
+      - name: military_hour
+        description: Hour in 24-hour notation (0–23).
+      - name: military_minute
+        description: Minute within the hour (0–59).
+      - name: am_pm
+        description: AM or PM indicator.
+      - name: time_of_day
+        description: Broad time-of-day band (Night, Morning, Afternoon, Evening).
+      - name: notation_12
+        description: 12-hour time string without AM/PM suffix.
+      - name: notation_24
+        description: 24-hour time string (HH:MM:SS).
+
+  - name: dim_player
+    description: >
+      One row per ATP player, enriched with career statistics and country demographics.
+      Includes an 'Unknown' record with key -1 for referential integrity on missing player data.
+    columns:
+      - name: dim_player_key
+        description: Surrogate key for the player. -1 for the Unknown record.
+        tests:
+          - unique
+          - not_null
+      - name: player_id
+        description: Numeric player identifier from the source.
+      - name: player_name
+        description: Canonical player name — the longer of the players-table name and match-record name.
+      - name: player_aka
+        description: Alternative name as seen in match records, where it differs.
+      - name: first_name
+        description: Player's given name.
+      - name: last_name
+        description: Player's family name.
+      - name: dominant_hand
+        description: Dominant playing hand (Right-handed, Left-handed, Ambidextrous, Unknown).
+      - name: date_of_birth
+        description: Date of birth as an ISO 8601 string.
+      - name: age_incl_date_of_birth
+        description: Display string combining current age and date of birth.
+      - name: age
+        description: Current age in whole years.
+      - name: nationality
+        description: English demonym for the player's country (e.g. Australian).
+      - name: country_iso_code
+        description: IOC alpha-3 country code.
+      - name: country_name
+        description: Common English name of the player's country.
+      - name: flag
+        description: Unicode flag emoji for the player's country.
+      - name: population
+        description: Population of the player's country.
+      - name: region
+        description: Sub-region of the player's country (e.g. Southern Europe).
+      - name: continent
+        description: Broad geographic region (e.g. Europe).
+      - name: height_in_centimeters
+        description: Player height in centimetres.
+      - name: height_in_inches
+        description: Player height in inches, rounded to one decimal place.
+      - name: height
+        description: Display string combining both height units.
+      - name: wikidata_id
+        description: Wikidata entity identifier.
+      - name: num_of_players
+        description: Constant 1 — counting measure for BI aggregations.
+      - name: num_of_wins
+        description: Career total match wins in the dataset.
+      - name: num_of_losses
+        description: Career total match losses in the dataset.
+      - name: career_wins_vs_losses
+        description: Display string in W/L format (e.g. "523/198").
+      - name: career_win_ratio
+        description: Career win ratio as a decimal string (e.g. "0.73").
+
+  - name: dim_tournament
+    description: >
+      One row per tournament edition (unique combination of tournament and date).
+      Includes an 'Unknown' record with key -1.
+    columns:
+      - name: dim_tournament_key
+        description: MD5 surrogate key for the tournament edition.
+        tests:
+          - unique
+          - not_null
+      - name: tournament_id
+        description: Natural identifier for the tournament edition.
+      - name: tournament_name
+        description: Display name of the tournament.
+      - name: tournament_level
+        description: Classification of the tournament (Grand Slams, Masters 1000s, etc.).
+      - name: tournament_date
+        description: Start date of the tournament as an ISO 8601 string.
+      - name: surface
+        description: Court surface (Hard, Clay, Grass, Carpet).
+      - name: draw_size
+        description: Number of players in the main draw.
+      - name: num_of_matches
+        description: Total number of matches played in this tournament edition.
+
+  - name: fct_match
+    description: >
+      Fact table at the grain of one row per ATP match. Contains foreign keys to all
+      relevant dimensions, degenerate dimension attributes (score, round, entry types),
+      and all numeric match measures with nulls coalesced to 0.
+      Note — dim_match from v1 has been absorbed here as degenerate dimensions.
+    columns:
+      - name: dim_tournament_key
+        description: Foreign key to dim_tournament.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_tournament')
+              field: dim_tournament_key
+      - name: dim_tournament_date_key
+        description: Foreign key to dim_date for the tournament start date.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: dim_date_key
+      - name: dim_player_winner_key
+        description: Foreign key to dim_player for the match winner.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_player')
+              field: dim_player_key
+      - name: dim_player_loser_key
+        description: Foreign key to dim_player for the match loser.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_player')
+              field: dim_player_key
+      - name: dim_date_winner_dob_key
+        description: Foreign key to dim_date for the winner's date of birth.
+        tests:
+          - not_null
+      - name: dim_date_loser_dob_key
+        description: Foreign key to dim_date for the loser's date of birth.
+        tests:
+          - not_null
+      - name: match_id
+        description: Degenerate dimension — match number within the tournament draw.
+      - name: score
+        description: Degenerate dimension — final match score in set notation.
+      - name: best_of
+        description: Degenerate dimension — maximum sets in the match format.
+      - name: best_of_labeled
+        description: Degenerate dimension — display string for the best-of format.
+      - name: round
+        description: Degenerate dimension — decoded tournament round name.
+      - name: winner_entry
+        description: Degenerate dimension — entry type of the winning player.
+      - name: loser_entry
+        description: Degenerate dimension — entry type of the losing player.
+      - name: num_of_matches
+        description: Constant 1 — counting measure.
+      - name: minutes
+        description: Match duration in minutes. 0 if not recorded.
+      - name: winner_seed
+        description: Seeding of the winning player. 0 if unseeded.
+      - name: winner_height_cm
+        description: Height of the winning player in centimetres. 0 if unknown.
+      - name: winner_age
+        description: Age of the winning player at time of match. 0 if unknown.
+      - name: winner_num_of_aces
+        description: Aces served by the winning player. 0 if not recorded.
+      - name: winner_num_of_double_faults
+        description: Double faults by the winning player. 0 if not recorded.
+      - name: winner_num_of_serve_pts
+        description: Total serve points by the winning player. 0 if not recorded.
+      - name: winner_num_of_1st_serves_made
+        description: First serves in by the winning player. 0 if not recorded.
+      - name: winner_num_of_1st_serve_pts_won
+        description: First-serve points won by the winning player. 0 if not recorded.
+      - name: winner_num_of_2nd_serve_pts_won
+        description: Second-serve points won by the winning player. 0 if not recorded.
+      - name: winner_num_of_serve_games
+        description: Serve games played by the winning player. 0 if not recorded.
+      - name: winner_num_of_break_pts_saved
+        description: Break points saved by the winning player. 0 if not recorded.
+      - name: winner_num_of_break_pts_faced
+        description: Break points faced by the winning player. 0 if not recorded.
+      - name: winner_rank
+        description: ATP ranking of the winning player at match time. 0 if unknown.
+      - name: winner_rank_pts
+        description: ATP ranking points of the winning player. 0 if unknown.
+      - name: loser_seed
+        description: Seeding of the losing player. 0 if unseeded.
+      - name: loser_height_cm
+        description: Height of the losing player in centimetres. 0 if unknown.
+      - name: loser_age
+        description: Age of the losing player at time of match. 0 if unknown.
+      - name: loser_num_of_aces
+        description: Aces served by the losing player. 0 if not recorded.
+      - name: loser_num_of_double_faults
+        description: Double faults by the losing player. 0 if not recorded.
+      - name: loser_num_of_serve_pts
+        description: Total serve points by the losing player. 0 if not recorded.
+      - name: loser_num_of_1st_serves_made
+        description: First serves in by the losing player. 0 if not recorded.
+      - name: loser_num_of_1st_serve_pts_won
+        description: First-serve points won by the losing player. 0 if not recorded.
+      - name: loser_num_of_2nd_serve_pts_won
+        description: Second-serve points won by the losing player. 0 if not recorded.
+      - name: loser_num_of_serve_games
+        description: Serve games played by the losing player. 0 if not recorded.
+      - name: loser_num_of_break_pts_saved
+        description: Break points saved by the losing player. 0 if not recorded.
+      - name: loser_num_of_break_pts_faced
+        description: Break points faced by the losing player. 0 if not recorded.
+      - name: loser_rank
+        description: ATP ranking of the losing player at match time. 0 if unknown.
+      - name: loser_rank_pts
+        description: ATP ranking points of the losing player. 0 if unknown.
+      - name: total_num_of_aces
+        description: Combined aces by both players. 0 if not recorded.
+      - name: total_num_of_double_faults
+        description: Combined double faults by both players. 0 if not recorded.
+      - name: total_num_of_serve_pts
+        description: Combined serve points by both players. 0 if not recorded.
+      - name: total_num_of_1st_serves_made
+        description: Combined first serves in by both players. 0 if not recorded.
+      - name: total_num_of_1st_serve_pts_won
+        description: Combined first-serve points won by both players. 0 if not recorded.
+      - name: total_num_of_2nd_serve_pts_won
+        description: Combined second-serve points won by both players. 0 if not recorded.
+      - name: total_num_of_serve_games
+        description: Combined serve games by both players. 0 if not recorded.
+      - name: total_num_of_break_pts_saved
+        description: Combined break points saved by both players. 0 if not recorded.
+      - name: total_num_of_break_pts_faced
+        description: Combined break points faced by both players. 0 if not recorded.
+      - name: age_difference
+        description: Absolute age difference in years between winner and loser. 0 if unknown.

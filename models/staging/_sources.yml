@@ -1,0 +1,92 @@
+version: 2
+
+sources:
+  - name: atp_tour
+    description: >
+      Raw ATP Tour data loaded into DuckDB by scripts/download_atp_tour_data.py.
+      Player and match data comes from Jeff Sackmann's tennis_atp GitHub repo
+      (https://github.com/JeffSackmann/tennis_atp). Country data comes from the
+      REST Countries API (https://restcountries.com/v3.1/all).
+    database: atp_tour
+    schema: raw
+
+    tables:
+      - name: countries
+        description: >
+          One row per country. Sourced from the REST Countries API as a JSON blob.
+          Provides ISO codes, region classification, flags, and border counts.
+        columns:
+          - name: cca3
+            description: ISO 3166-1 alpha-3 country code (three-letter). Natural key.
+          - name: name
+            description: Nested JSON object containing common and official country names.
+          - name: demonyms
+            description: Nested JSON object with gendered demonyms in multiple languages.
+          - name: region
+            description: Broad geographic region (e.g. Americas, Europe).
+          - name: subregion
+            description: Sub-region within the broad region (e.g. Southern Europe).
+          - name: flag
+            description: Unicode flag emoji for the country.
+          - name: population
+            description: Estimated population of the country.
+          - name: borders
+            description: JSON array of ISO codes for countries sharing a land border.
+
+      - name: matches
+        description: >
+          One row per ATP match. Covers all tour-level matches from the available
+          historical record. Includes both winner and loser statistics per match.
+        columns:
+          - name: tourney_id
+            description: Unique identifier for the tournament edition (e.g. 2023-560).
+          - name: tourney_name
+            description: Display name of the tournament.
+          - name: tourney_level
+            description: Single-character code for the tournament level (G/M/F/D/A).
+          - name: tourney_date
+            description: Start date of the tournament.
+          - name: surface
+            description: Court surface (Hard, Clay, Grass, Carpet).
+          - name: draw_size
+            description: Number of players in the main draw.
+          - name: match_num
+            description: Match number within the tournament draw. Not globally unique.
+          - name: score
+            description: Final score of the match in set notation.
+          - name: best_of
+            description: Maximum number of sets (3 or 5).
+          - name: round
+            description: Tournament round code (F, SF, QF, R16, R32, R64, R128, RR).
+          - name: minutes
+            description: Match duration in minutes.
+          - name: winner_id
+            description: Player ID of the match winner. Foreign key to players table.
+          - name: winner_name
+            description: Name of the match winner as recorded in the source data.
+          - name: loser_id
+            description: Player ID of the match loser. Foreign key to players table.
+          - name: loser_name
+            description: Name of the match loser as recorded in the source data.
+
+      - name: players
+        description: >
+          One row per ATP player. Contains biographical and physical attributes.
+          Sourced from Jeff Sackmann's atp_players.csv file.
+        columns:
+          - name: player_id
+            description: Numeric player identifier. Natural key. Note — duplicate IDs 148670/148671 exist in the source and are de-duplicated in staging.
+          - name: name_first
+            description: Player's given name.
+          - name: name_last
+            description: Player's family name.
+          - name: hand
+            description: Dominant playing hand code (R=Right, L=Left, A=Ambidextrous, U=Unknown).
+          - name: dob
+            description: Date of birth in YYYYMMDD integer format in the source; converted to DATE on load.
+          - name: ioc
+            description: IOC three-letter country code. Joins to countries.cca3.
+          - name: height
+            description: Player height in centimetres.
+          - name: wikidata_id
+            description: Wikidata entity identifier for the player.

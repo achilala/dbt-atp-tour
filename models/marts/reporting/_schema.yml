@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: rpt_match_summary
+    description: >
+      Denormalised reporting view for BI tools (Metabase, Streamlit). One row per ATP match.
+      Joins fct_match with dim_date, dim_tournament, and dim_player to produce a flat,
+      human-readable dataset. Intended for direct consumption — do not build further
+      dimensional models on top of this.
+    docs:
+      node_color: 'orange'
+    columns:
+      - name: Date
+        description: Tournament date.
+      - name: Tournament
+        description: Tournament name.
+      - name: Surface
+        description: Court surface.
+      - name: Round
+        description: Tournament round.
+      - name: Winner
+        description: Name of the match winner.
+      - name: Loser
+        description: Name of the match loser.
+      - name: Score
+        description: Final match score.
+      - name: Matches
+        description: Constant 1 — for counting aggregations.
+      - name: Aces
+        description: Number of aces served by the winner.
+      - name: Year
+        description: Calendar year of the tournament.
+      - name: Hand
+        description: Dominant hand of the winning player.

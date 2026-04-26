@@ -1,0 +1,229 @@
+version: 2
+
+models:
+  - name: stg_atp_tour__countries
+    description: >
+      One row per country. Renames and casts raw JSON fields from the REST Countries API.
+      Generates a surrogate key from the ISO code.
+    columns:
+      - name: country_sk
+        description: MD5 surrogate key derived from country_iso_code.
+        tests:
+          - unique
+          - not_null
+      - name: country_iso_code
+        description: ISO 3166-1 alpha-3 country code.
+        tests:
+          - unique
+          - not_null
+      - name: country_name
+        description: Common English name of the country.
+      - name: nationality
+        description: English demonym for a person from this country (e.g. Australian).
+      - name: continent
+        description: Broad geographic region (e.g. Oceania, Europe).
+      - name: region
+        description: Sub-region within the continent (e.g. Australia and New Zealand).
+      - name: flag
+        description: Unicode flag emoji.
+      - name: population
+        description: Estimated population.
+      - name: num_of_borders
+        description: Number of countries sharing a land border with this country.
+
+  - name: stg_atp_tour__players
+    description: >
+      One row per ATP player. Renames, casts, and lightly cleans raw player attributes.
+      Decodes the dominant hand code into a readable label. De-duplicates the known
+      duplicate player IDs 148670/148671 in the source data.
+      Height is available in both centimetres and inches (converted via the cm_to_inches var).
+    columns:
+      - name: player_sk
+        description: MD5 surrogate key derived from player_id.
+        tests:
+          - unique
+          - not_null
+      - name: player_id
+        description: Numeric player identifier from the source.
+        tests:
+          - unique
+          - not_null
+      - name: player_name
+        description: Full name concatenated from first and last name fields.
+      - name: first_name
+        description: Player's given name.
+      - name: last_name
+        description: Player's family name.
+      - name: dominant_hand
+        description: Playing hand decoded from source code.
+        tests:
+          - accepted_values:
+              values: ['Right-handed', 'Left-handed', 'Ambidextrous', 'Unknown']
+      - name: date_of_birth
+        description: Date of birth as an ISO 8601 string (YYYY-MM-DD).
+      - name: age
+        description: Current age of the player in whole years, calculated at run time.
+      - name: age_incl_date_of_birth
+        description: Display string combining age and date of birth (e.g. "25 (1998.03.15)").
+      - name: country_iso_code
+        description: IOC alpha-3 country code. Joins to stg_atp_tour__countries.country_iso_code.
+      - name: height_in_centimeters
+        description: Player height in centimetres.
+      - name: height_in_inches
+        description: Player height converted to inches, rounded to one decimal place.
+      - name: height
+        description: Display string combining both height units (e.g. "6'1\" (185 cm)").
+      - name: wikidata_id
+        description: Wikidata entity identifier.
+      - name: date_of_birth_key
+        description: Integer date key (YYYYMMDD) for joining to dim_date on date of birth.
+      - name: time_of_birth_key
+        description: Integer time key (HHMM) for joining to dim_time on time of birth.
+      - name: num_of_players
+        description: Constant value 1 — used as a counting measure in BI tools.
+
+  - name: stg_atp_tour__matches
+    description: >
+      One row per ATP match. Renames and casts all raw match columns. Decodes
+      single-character codes for tournament level, round, player entry type, and
+      dominant hand into readable labels. Generates surrogate keys for tournament,
+      match, winner, and loser. Computed totals (combined winner+loser stats) and
+      age_difference are added in the intermediate layer.
+    columns:
+      - name: tournament_sk
+        description: MD5 surrogate key derived from tournament_id and tournament_date.
+        tests:
+          - not_null
+      - name: match_sk
+        description: MD5 surrogate key derived from tournament_id and match_id.
+        tests:
+          - not_null
+      - name: player_winner_key
+        description: MD5 surrogate key for the winning player. Joins to dim_player.
+        tests:
+          - not_null
+      - name: player_loser_key
+        description: MD5 surrogate key for the losing player. Joins to dim_player.
+        tests:
+          - not_null
+      - name: tournament_id
+        description: Unique identifier for the tournament edition.
+      - name: tournament_name
+        description: Display name of the tournament.
+      - name: tournament_level
+        description: Tournament classification decoded from the source code.
+        tests:
+          - accepted_values:
+              values:
+                - 'Grand Slams'
+                - 'Masters 1000s'
+                - 'Tour finals'
+                - 'Davis Cup'
+                - 'Other tour-level events'
+      - name: tournament_date
+        description: Start date of the tournament.
+      - name: tournament_date_key
+        description: Integer date key (YYYYMMDD) for joining to dim_date.
+      - name: surface
+        description: Court surface on which the match was played.
+        tests:
+          - accepted_values:
+              values: ['Hard', 'Clay', 'Grass', 'Carpet']
+              quote: true
+      - name: draw_size
+        description: Number of players in the draw.
+      - name: match_id
+        description: Match number within the tournament draw.
+      - name: score
+        description: Final match score in set notation.
+      - name: best_of
+        description: Maximum sets in the match format (3 or 5).
+        tests:
+          - accepted_values:
+              values: [1, 3, 5]
+              quote: false
+      - name: best_of_labeled
+        description: Display string for the best-of format (e.g. "Best of 5").
+      - name: round
+        description: Tournament round decoded from the source code.
+        tests:
+          - accepted_values:
+              values: ['Final', 'Semifinal', 'Quarterfinal', 'Round of 16', 'Round of 32', 'Round of 64', 'Round of 128', 'Round robin', 'Bronze match', 'Early round']
+      - name: minutes
+        description: Match duration in minutes.
+      - name: winner_id
+        description: Numeric player ID of the match winner.
+      - name: winner_seed
+        description: Tournament seeding of the winning player, if seeded.
+      - name: winner_entry
+        description: Entry type of the winning player (e.g. Wild card, Qualifier).
+      - name: winner_name
+        description: Name of the winning player as recorded in the source.
+      - name: winner_dominant_hand
+        description: Dominant playing hand of the winning player.
+      - name: winner_height_cm
+        description: Height of the winning player in centimetres.
+      - name: winner_country_iso_code
+        description: IOC country code of the winning player.
+      - name: winner_age
+        description: Age of the winning player at time of the match.
+      - name: winner_num_of_aces
+        description: Number of aces served by the winning player.
+      - name: winner_num_of_double_faults
+        description: Number of double faults by the winning player.
+      - name: winner_num_of_serve_pts
+        description: Total serve points played by the winning player.
+      - name: winner_num_of_1st_serves_made
+        description: Number of first serves landed in by the winning player.
+      - name: winner_num_of_1st_serve_pts_won
+        description: First-serve points won by the winning player.
+      - name: winner_num_of_2nd_serve_pts_won
+        description: Second-serve points won by the winning player.
+      - name: winner_num_of_serve_games
+        description: Number of serve games played by the winning player.
+      - name: winner_num_of_break_pts_saved
+        description: Break points saved by the winning player.
+      - name: winner_num_of_break_pts_faced
+        description: Break points faced by the winning player on serve.
+      - name: winner_rank
+        description: ATP ranking of the winning player at time of the match.
+      - name: winner_rank_pts
+        description: ATP ranking points of the winning player at time of the match.
+      - name: loser_id
+        description: Numeric player ID of the match loser.
+      - name: loser_seed
+        description: Tournament seeding of the losing player, if seeded.
+      - name: loser_entry
+        description: Entry type of the losing player (e.g. Wild card, Qualifier).
+      - name: loser_name
+        description: Name of the losing player as recorded in the source.
+      - name: loser_dominant_hand
+        description: Dominant playing hand of the losing player.
+      - name: loser_height_cm
+        description: Height of the losing player in centimetres.
+      - name: loser_country_iso_code
+        description: IOC country code of the losing player.
+      - name: loser_age
+        description: Age of the losing player at time of the match.
+      - name: loser_num_of_aces
+        description: Number of aces served by the losing player.
+      - name: loser_num_of_double_faults
+        description: Number of double faults by the losing player.
+      - name: loser_num_of_serve_pts
+        description: Total serve points played by the losing player.
+      - name: loser_num_of_1st_serves_made
+        description: Number of first serves landed in by the losing player.
+      - name: loser_num_of_1st_serve_pts_won
+        description: First-serve points won by the losing player.
+      - name: loser_num_of_2nd_serve_pts_won
+        description: Second-serve points won by the losing player.
+      - name: loser_num_of_serve_games
+        description: Number of serve games played by the losing player.
+      - name: loser_num_of_break_pts_saved
+        description: Break points saved by the losing player.
+      - name: loser_num_of_break_pts_faced
+        description: Break points faced by the losing player on serve.
+      - name: loser_rank
+        description: ATP ranking of the losing player at time of the match.
+      - name: loser_rank_pts
+        description: ATP ranking points of the losing player at time of the match.

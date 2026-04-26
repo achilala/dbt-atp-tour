@@ -1,0 +1,22 @@
+target/
+dbt_packages/
+logs/
+
+# DuckDB database files — do not commit
+*.duckdb
+
+# Credentials — keep out of git
+profiles.yml
+.env
+
+# dbt user ID (machine-specific, not project config)
+.user.yml
+
+# Python cache
+__pycache__/
+*.py[cod]
+.venv/
+.python-version
+
+# Secrets / temp files
+.countries.json
