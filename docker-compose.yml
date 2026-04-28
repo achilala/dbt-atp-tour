@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase-atp-v2
+    ports:
+      - "3001:3000"
+    volumes:
+      - ".:/home/db"

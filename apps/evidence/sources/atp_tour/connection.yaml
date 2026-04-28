@@ -1,0 +1,4 @@
+name: atp_tour
+type: duckdb
+options:
+  filename: ../../../analytics.duckdb
