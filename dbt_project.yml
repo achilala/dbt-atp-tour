@@ -58,7 +58,7 @@ models:
         +schema: reporting
         +materialized: view
 
-tests:
+data_tests:
   dbt_atp_tour:
     +docs:
       node_color: "red"

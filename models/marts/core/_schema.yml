@@ -8,7 +8,7 @@ models:
     columns:
       - name: dim_date_key
         description: Integer surrogate key in YYYYMMDD format. -1 for the Unknown record.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: date_day
@@ -97,7 +97,7 @@ models:
     columns:
       - name: dim_time_key
         description: Integer surrogate key in HHMM format. -1 for the Unknown record.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: the_time
@@ -126,7 +126,7 @@ models:
     columns:
       - name: dim_player_key
         description: Surrogate key for the player. -1 for the Unknown record.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: player_id
@@ -187,7 +187,7 @@ models:
     columns:
       - name: dim_tournament_key
         description: MD5 surrogate key for the tournament edition.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: tournament_id
@@ -214,39 +214,39 @@ models:
     columns:
       - name: dim_tournament_key
         description: Foreign key to dim_tournament.
-        tests:
+        data_tests:
           - not_null
           - relationships:
               to: ref('dim_tournament')
               field: dim_tournament_key
       - name: dim_tournament_date_key
         description: Foreign key to dim_date for the tournament start date.
-        tests:
+        data_tests:
           - not_null
           - relationships:
               to: ref('dim_date')
               field: dim_date_key
       - name: dim_player_winner_key
         description: Foreign key to dim_player for the match winner.
-        tests:
+        data_tests:
           - not_null
           - relationships:
               to: ref('dim_player')
               field: dim_player_key
       - name: dim_player_loser_key
         description: Foreign key to dim_player for the match loser.
-        tests:
+        data_tests:
           - not_null
           - relationships:
               to: ref('dim_player')
               field: dim_player_key
       - name: dim_date_winner_dob_key
         description: Foreign key to dim_date for the winner's date of birth.
-        tests:
+        data_tests:
           - not_null
       - name: dim_date_loser_dob_key
         description: Foreign key to dim_date for the loser's date of birth.
-        tests:
+        data_tests:
           - not_null
       - name: match_id
         description: Degenerate dimension — match number within the tournament draw.

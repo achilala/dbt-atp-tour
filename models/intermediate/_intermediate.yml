@@ -10,7 +10,7 @@ models:
     columns:
       - name: match_sk
         description: MD5 surrogate key for the match. Inherited from staging.
-        tests:
+        data_tests:
           - not_null
       - name: total_num_of_aces
         description: Combined aces served by both players in the match.
@@ -41,7 +41,7 @@ models:
     columns:
       - name: player_id
         description: Numeric player identifier. Natural key.
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: player_name
